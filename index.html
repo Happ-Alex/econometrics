@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Oleksandr Neschasnij">
-<meta name="dcterms.date" content="2023-05-01">
+<meta name="dcterms.date" content="2023-05-02">
 
 <title>Курсова робота по економетриці на тему: Дослідження впливу різних факторів на рівень людського розвитку в різних країнах</title>
 <style>
@@ -113,11 +113,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
   <li><a href="#план" id="toc-план" class="nav-link active" data-scroll-target="#план">План</a></li>
   <li><a href="#пояснення-змінних-у-датасеті" id="toc-пояснення-змінних-у-датасеті" class="nav-link" data-scroll-target="#пояснення-змінних-у-датасеті">Пояснення змінних у датасеті</a></li>
-  <li><a href="#побудова-плр-за-мнк" id="toc-побудова-плр-за-мнк" class="nav-link" data-scroll-target="#побудова-плр-за-мнк">Побудова ПЛР за МНК</a>
+  <li><a href="#побудова-млр-за-мнк" id="toc-побудова-млр-за-мнк" class="nav-link" data-scroll-target="#побудова-млр-за-мнк">Побудова МЛР за МНК</a>
   <ul class="collapse">
-  <li><a href="#підготовка-вибірки" id="toc-підготовка-вибірки" class="nav-link" data-scroll-target="#підготовка-вибірки">Підготовка вибірки</a></li>
-  <li><a href="#візуалізація-лінійної-залежності-між-двома-змінними" id="toc-візуалізація-лінійної-залежності-між-двома-змінними" class="nav-link" data-scroll-target="#візуалізація-лінійної-залежності-між-двома-змінними">Візуалізація лінійної залежності між двома змінними</a></li>
   <li><a href="#метод-найменших-квадратів-по-кроково" id="toc-метод-найменших-квадратів-по-кроково" class="nav-link" data-scroll-target="#метод-найменших-квадратів-по-кроково">Метод найменших квадратів по кроково</a></li>
+  <li><a href="#підготовка-вибірки" id="toc-підготовка-вибірки" class="nav-link" data-scroll-target="#підготовка-вибірки">Підготовка вибірки</a></li>
+  <li><a href="#пошук-найкращої-млр" id="toc-пошук-найкращої-млр" class="nav-link" data-scroll-target="#пошук-найкращої-млр">Пошук найкращої МЛР</a></li>
+  <li><a href="#модель-з-використанням-декількох-змінних" id="toc-модель-з-використанням-декількох-змінних" class="nav-link" data-scroll-target="#модель-з-використанням-декількох-змінних">Модель з використанням декількох змінних</a></li>
+  </ul></li>
+  <li><a href="#перевірка-моделі-на-явність-явища-гетероскедастичності" id="toc-перевірка-моделі-на-явність-явища-гетероскедастичності" class="nav-link" data-scroll-target="#перевірка-моделі-на-явність-явища-гетероскедастичності">Перевірка моделі на явність явища гетероскедастичності</a>
+  <ul class="collapse">
+  <li><a href="#проведення-тестів-на-явище-гетероскедастичності" id="toc-проведення-тестів-на-явище-гетероскедастичності" class="nav-link" data-scroll-target="#проведення-тестів-на-явище-гетероскедастичності">Проведення тестів на явище гетероскедастичності</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -144,7 +149,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Дата публікації</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 1, 2023</p>
+      <p class="date">May 2, 2023</p>
     </div>
   </div>
   
@@ -157,9 +162,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="план" class="level1">
 <h1>План</h1>
 <ol type="1">
-<li>Побудова ПЛР за МНК;</li>
-<li>Пошук найкращої МЛР;</li>
-<li>Перевірка МЛР на нульову гіпотезу та наявність статистично значущого взаємозв’язку між змінними;</li>
+<li>Вступ</li>
+<li>Побудова МЛР за МНК. Пошук найкращої МЛР. Перевірка моделі на нульову гіпотезу та наявність статистично значущого взаємозв’язку між змінними;</li>
 <li>Перевірка моделі на явність явища гетероскедастичності</li>
 <li>Використання моделі для виведення результатів за допомогою симплекс-методу</li>
 </ol>
@@ -192,8 +196,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <table class="table">
 <colgroup>
-<col style="width: 27%">
-<col style="width: 72%">
+<col style="width: 29%">
+<col style="width: 70%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -233,76 +237,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 </section>
-<section id="побудова-плр-за-мнк" class="level1">
-<h1>Побудова ПЛР за МНК</h1>
+<section id="побудова-млр-за-мнк" class="level1">
+<h1>Побудова МЛР за МНК</h1>
 <p>У цьому розділі я розповім як створюється ПЛР/МЛР за методом найменших квадратів, які формули використовуються для розрахунку, та як мова програмування R полегшує роботу, проводячи всі розрахунки однією нескладною функцією.</p>
-<p><strong><em>Проста лінійна регресія</em></strong> — це модель, яка пояснює залежність між двома змінними за допомогою лінійного взаємозв’язку.</p>
-<section id="підготовка-вибірки" class="level2">
-<h2 class="anchored" data-anchor-id="підготовка-вибірки">Підготовка вибірки</h2>
-<p>Для початку потрібно визначити залежну та незалежну змінні, оскільки залежна змінна— пояснювана або прогнозована змінна, то можемо легко сказати, що <strong>HDI(Human Development Index)— залежна,</strong> а <strong>всі інші— незалежні</strong>, але для ПЛР візьмемо одну, <strong>GNI per capita.</strong></p>
-<p>Тепер потрібно сформувати підвибірку з рівня людського розвитку та річного доходу на душу населення за допомогою функції <code>slice_sample(n = …)</code>, яка потрібна для отримання зрізу даних випадкової вибірки. Функція <code>select(lх, у)</code> використовується дли вибору певних даних з стовпців датафрейму</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>SLR <span class="ot">&lt;-</span> read_file <span class="sc">%&gt;%</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">50</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>SLR</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 50 × 2
-   `Human Development Index (HDI)` `Gross national income (GNI) per capita`
-                             &lt;dbl&gt;                                    &lt;dbl&gt;
- 1                           0.693                                   16198.
- 2                           0.498                                    2361.
- 3                           0.717                                   12349.
- 4                           0.911                                   62574.
- 5                           0.853                                   52654.
- 6                           0.731                                   10258.
- 7                           0.896                                   38188.
- 8                           0.832                                   20839.
- 9                           0.675                                    8296.
-10                           0.632                                    5745.
-# ℹ 40 more rows</code></pre>
-</div>
-</div>
-</section>
-<section id="візуалізація-лінійної-залежності-між-двома-змінними" class="level2">
-<h2 class="anchored" data-anchor-id="візуалізація-лінійної-залежності-між-двома-змінними">Візуалізація лінійної залежності між двома змінними</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>SLR <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span>,<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">20</span>, <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">size=</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"річний дохід на душу населення"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Рівень людського розвитку"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Перед тим як почати аналіз підкорегуємо графік за допомогою log-специфікації</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>SLR <span class="sc">%&gt;%</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">log</span>(<span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span>),<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">20</span>, <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">size=</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"річний дохід на душу населення"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Рівень людського розвитку"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Проглянувши діаграму, робимо висновок, що майже у всіх випадках, високий річний дохід свідчить про більший рівень людського розвитку</p>
-<p>Проводемо пряму, яка відповідає середньому значенню HDI</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SLR <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">log</span>(<span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span>),<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">20</span>, <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">size=</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span>)), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"річний дохід на душу населення"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Рівень людського розвитку"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/diagram_mean-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Спостерігаємо відхилення модельних значень від фактичних</p>
-</section>
 <section id="метод-найменших-квадратів-по-кроково" class="level2">
 <h2 class="anchored" data-anchor-id="метод-найменших-квадратів-по-кроково">Метод найменших квадратів по кроково</h2>
 <p>Рівняння прямої виглядає наступним чином:</p>
@@ -365,40 +302,270 @@ HDI_i = \beta_0 + \beta_1GNI_i + u_i
 \hat{\beta_1} = \frac{\sum\limits^{n}_{i=1}(x_i - \overline{x})(y_i -    \overline{y})}{\sum\limits^{n}_{i=1}(x_i - \overline{x})^2} =  \frac{\overline{xy} - \overline{x}\overline{y}}{\overline{x^2} -   \overline{x}^2}
 \end{matrix}\right.
 \]</span> Проте мова програмування R надає нам чудову функцію <strong><code>lm()</code></strong>, яка дозваляє уникнути створення моделі за МНК по кроково, а функція <strong><code>summary()</code></strong> виводить додаткову інформаю про модель, у тому числі оцінку коефіцієнтів</p>
+</section>
+<section id="підготовка-вибірки" class="level2">
+<h2 class="anchored" data-anchor-id="підготовка-вибірки">Підготовка вибірки</h2>
+<p>Для початку потрібно визначити залежну та незалежну змінні, оскільки залежна змінна— пояснювана або прогнозована змінна, то можемо легко сказати, що <strong>HDI(Human Development Index)— залежна,</strong> а <strong>всі інші— незалежні</strong>. Тепер потрібно сформувати підвибірку з рівня людського розвитку та всіх інших незалежних змінних за допомогою функції <code>slice_sample(n = …)</code>, яка потрібна для отримання зрізу даних випадкової вибірки. Функція <code>select(!с(х, у)</code> використовується для відбору певних даних з стовпців датафрейму, якіне потрібні для дослідження(через їх тип даних)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>SLR_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span>, <span class="at">data =</span> SLR)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(SLR_model)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>MLR <span class="ot">&lt;-</span> read_file <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(Country)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">100</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>MLR</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 100 × 7
+   `Human Development Index (HDI)` Life expectancy at b…¹ Expected years of sc…²
+                             &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;
+ 1                           0.693                   61.1                  12.3 
+ 2                           0.498                   65.0                   9.65
+ 3                           0.717                   70.3                  13.0 
+ 4                           0.911                   78.7                  15.7 
+ 5                           0.853                   80.9                  12.3 
+ 6                           0.731                   73.8                  15.4 
+ 7                           0.896                   81.2                  15.6 
+ 8                           0.832                   76.3                  15.1 
+ 9                           0.675                   70.7                  12.7 
+10                           0.632                   63.8                  12.0 
+# ℹ 90 more rows
+# ℹ abbreviated names: ¹​`Life expectancy at birth`,
+#   ²​`Expected years of schooling`
+# ℹ 4 more variables: `Mean years of schooling` &lt;dbl&gt;,
+#   `Gross national income (GNI) per capita` &lt;dbl&gt;,
+#   `GNI per capita rank minus HDI rank` &lt;dbl&gt;, `HDI rank` &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="пошук-найкращої-млр" class="level2">
+<h2 class="anchored" data-anchor-id="пошук-найкращої-млр">Пошук найкращої МЛР</h2>
+<p><strong><code>(Множинна лінійна регресія)</code></strong> - це статистична методика, що дозволяє встановити залежність між залежною змінною та двома або більше незалежними змінними.</p>
+<section id="модель-зі-всіма-змінними" class="level3">
+<h3 class="anchored" data-anchor-id="модель-зі-всіма-змінними">Модель зі всіма змінними</h3>
+<p>Розглянемо залежність між HDI(залежна зміна) та всіма незалежними</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>MLR_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> ., <span class="at">data =</span> MLR) </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(MLR_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = `Human Development Index (HDI)` ~ `Gross national income (GNI) per capita`, 
-    data = SLR)
+lm(formula = `Human Development Index (HDI)` ~ ., data = MLR)
 
 Residuals:
-     Min       1Q   Median       3Q      Max 
--0.21447 -0.04809  0.02621  0.05275  0.10967 
+      Min        1Q    Median        3Q       Max 
+-0.042874 -0.003368  0.000509  0.005200  0.017706 
 
 Coefficients:
-                                          Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)                              5.941e-01  1.726e-02   34.42   &lt;2e-16
-`Gross national income (GNI) per capita` 7.008e-06  6.957e-07   10.07    2e-13
+                                           Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                               9.922e-02  4.767e-02   2.081  0.04014
+`Life expectancy at birth`                6.138e-03  3.364e-04  18.249  &lt; 2e-16
+`Expected years of schooling`             1.091e-02  9.150e-04  11.922  &lt; 2e-16
+`Mean years of schooling`                 1.421e-02  8.663e-04  16.407  &lt; 2e-16
+`Gross national income (GNI) per capita` -3.693e-07  1.291e-07  -2.861  0.00522
+`GNI per capita rank minus HDI rank`     -1.368e-03  9.550e-05 -14.323  &lt; 2e-16
+`HDI rank`                               -8.799e-04  1.195e-04  -7.363 7.09e-11
                                             
-(Intercept)                              ***
-`Gross national income (GNI) per capita` ***
+(Intercept)                              *  
+`Life expectancy at birth`               ***
+`Expected years of schooling`            ***
+`Mean years of schooling`                ***
+`Gross national income (GNI) per capita` ** 
+`GNI per capita rank minus HDI rank`     ***
+`HDI rank`                               ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.08041 on 48 degrees of freedom
-Multiple R-squared:  0.6788,    Adjusted R-squared:  0.6721 
-F-statistic: 101.5 on 1 and 48 DF,  p-value: 1.999e-13</code></pre>
+Residual standard error: 0.009076 on 93 degrees of freedom
+Multiple R-squared:  0.9959,    Adjusted R-squared:  0.9956 
+F-statistic:  3737 on 6 and 93 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"yi= "</span>, <span class="fu">round</span>(<span class="fu">summary</span>(SLR_model)<span class="sc">$</span>coefficients[<span class="dv">1</span>,<span class="dv">1</span>], <span class="dv">3</span>) , <span class="st">"+"</span>,<span class="fu">summary</span>(SLR_model)<span class="sc">$</span>coefficients[<span class="dv">2</span>,<span class="dv">1</span>], <span class="st">"xi"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> MLR, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span>, <span class="at">y =</span> <span class="fu">predict</span>(MLR_lm))) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">20</span>, <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">size=</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Фактичні значення HDI"</span>, <span class="at">y =</span> <span class="st">"Прогнозовані значення HDI"</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Діаграма розсіювання для моделі множинної лінійної регресії зі всіма змінними"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Тепер детальніше про функцію <strong><code>summary()</code></strong>, окрім оцінки коефіцієнтів, вона виводить стандартну похибку, t-критерій, коефіцієнт детермінації та скоригований коефіцієнт детермінації, ступені свободи, F-критерій, p-значення і мінімальні та максимальні відхилиння.</p>
+<p>Поговоримо про кожен окремо на прикладі моделі MLR_lm:</p>
+<ol type="1">
+<li><strong><em>t-критерій—</em></strong> тест, який використовується у статистиці для перевірки гіпотез про значимість різниці між середніми значеннями двох груп. T-критерій базується на розподілі Стьюдента, що залежить від ступенів свободи (degrees of freedom) і рівня значимості</li>
+</ol>
+<p>Для початку застосовуємо функцію <code>qt()</code>, що повертає критичне значення (квантиль) t-розподілу.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(<span class="fu">qt</span>(<span class="fl">0.01</span>, <span class="dv">93</span>))</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>yi=  0.594 + 7.007743e-06 xi</code></pre>
+<pre><code>[1] 2.367115</code></pre>
 </div>
 </div>
+<p>Робимо висновок, що усі коефіцієнти, крім Intercept, мають значення t-критерію, модуль якого більший за 2.367115, що дозволяє прийняти гіпотезу про їхню значущість;</p>
+<ol start="2" type="1">
+<li><p><strong><em>F-критерій—</em></strong> це статистичний критерій, що використовується для порівняння дисперсії між двома або більше вибірками. В контексті лінійної регресії F-критерій використовується для оцінки важливості регресійної моделі в цілому. Значення <code>f-статистики</code> досить високе <code>(3737)</code>, що підтверджує наявність статистично значущого взаємозв’язку між змінними;</p></li>
+<li><p><strong><em>p-значення—</em></strong> це ймовірність отримати спостережуване значення статистики, якщо нульова гіпотеза є правильною. Значення <code>p-value</code> дуже мале <code>p-value: &lt; 2.2e-16</code>, що свідчить про те, що наявний статистично значущий взаємозв’язок між змінними в моделі;</p></li>
+<li><p><strong><em>Коефіцієнт детермінації —</em></strong> коефіцієнт, що вказує на частину варіації залежної змінної , що пояснюється регресійною моделлю. Але у цього показника є один вагомий мінус— чим більша к-сть вибірок та змінних, тим більший буде R-squared. Проте і цей недолік враховує функція <strong><code>summary()</code></strong>, Adjusted R-squared або скорегований коефіцієнт детермінації, що є модифікованою версією , але й він не дає 100% гарантії, щодо правдивості показників, тому повністю довіряти цим показникам, не перевіршив статистичну значущість змінних, навіть якщо R^2= 99%— не варто;</p></li>
+<li><p><strong><em>Довірчі інтервали—</em></strong> це інтервал значень, що містить обраний параметр з певною ймовірністю.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(MLR_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                 2.5 %        97.5 %
+(Intercept)                               4.560783e-03  1.938718e-01
+`Life expectancy at birth`                5.470241e-03  6.806099e-03
+`Expected years of schooling`             9.091301e-03  1.272515e-02
+`Mean years of schooling`                 1.249374e-02  1.593454e-02
+`Gross national income (GNI) per capita` -6.257422e-07 -1.129485e-07
+`GNI per capita rank minus HDI rank`     -1.557558e-03 -1.178263e-03
+`HDI rank`                               -1.117211e-03 -6.425941e-04</code></pre>
+</div>
+</div>
+<p>Загалом, з рівнем довіри 95%, ми бачимо, що більшість коефіцієнтів, крім <strong><code>Gross national income (GNI) per capita</code></strong>, <strong><code>GNI per capita rank minus HDI rank</code></strong> мають довірчі інтервали, які містять нуль, що свідчить про те, що ці коефіцієнт можуть не мати значимого впливу на залежну змінну при розгляді інших незалежних змінних.</p></li>
+</ol>
+<p><strong>Висновок:</strong> проаналізувавши отримані дані, модель зі всіма змінними є чудовою з точки зору прогнозування, але, врахувавши результати довірчого інтервалу, дізнаємось, що є змінні, що не мають статистично-значущого впливу на залежну змінну, тому спробуємо зменшити кількість атрибутів</p>
+</section>
+</section>
+<section id="модель-з-використанням-декількох-змінних" class="level2">
+<h2 class="anchored" data-anchor-id="модель-з-використанням-декількох-змінних">Модель з використанням декількох змінних</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>MLR <span class="ot">&lt;-</span> read_file <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(Country)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">100</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>MLR_lm_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span> , <span class="at">data =</span> MLR) </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(MLR_lm_1)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = `Human Development Index (HDI)` ~ `Life expectancy at birth` + 
+    `Expected years of schooling` + `Mean years of schooling` + 
+    `HDI rank`, data = MLR)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.054557 -0.007629  0.000371  0.008960  0.044198 
+
+Coefficients:
+                                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                    0.4673941  0.0570668   8.190 1.19e-12 ***
+`Life expectancy at birth`     0.0035063  0.0004839   7.245 1.13e-10 ***
+`Expected years of schooling`  0.0057615  0.0013108   4.395 2.88e-05 ***
+`Mean years of schooling`      0.0085275  0.0011826   7.211 1.33e-10 ***
+`HDI rank`                    -0.0015778  0.0001277 -12.359  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.01608 on 95 degrees of freedom
+Multiple R-squared:  0.9868,    Adjusted R-squared:  0.9862 
+F-statistic:  1770 on 4 and 95 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> MLR, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span>, <span class="at">y =</span> <span class="fu">predict</span>(MLR_lm_1))) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">20</span>, <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">size=</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Фактичні значення HDI"</span>, <span class="at">y =</span> <span class="st">"Прогнозовані значення HDI"</span>, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Діаграма розсіювання для моделі множинної лінійної регресії"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol type="1">
+<li><strong><em>t-критерій—</em></strong></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(<span class="fu">qt</span>(<span class="fl">0.02</span>, <span class="dv">95</span>))</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.082331</code></pre>
+</div>
+</div>
+<p>Робимо висновок, що усі коефіцієнти мають значення t-критерію, модуль якого більший за 2.08, що дозволяє прийняти гіпотезу про їхню значущість;</p>
+<ol start="2" type="1">
+<li><p><strong><em>F-критерій—</em></strong>. Значення <code>f-статистики</code> дотатньо високе <code>(1770)</code>, що підтверджує наявність статистично значущого взаємозв’язку між змінними;</p></li>
+<li><p><strong><em>p-значення—</em></strong> це ймовірність отримати спостережуване значення статистики, якщо нульова гіпотеза є правильною. Значення <code>p-value</code> дуже мале <code>p-value: &lt; 2.2e-16</code>, що свідчить про те, що наявний статистично значущий взаємозв’язок між змінними в моделі;</p></li>
+<li><p><strong><em>Коефіцієнт детермінації —</em></strong>. В даній моделі скорегований коефіцієнт детермінації дорівнює <strong><em><code>98,6%</code></em></strong></p></li>
+<li><p><strong><em>Довірчі інтервали—</em></strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(MLR_lm_1)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                     2.5 %       97.5 %
+(Intercept)                    0.354102222  0.580685953
+`Life expectancy at birth`     0.002545571  0.004467009
+`Expected years of schooling`  0.003159129  0.008363860
+`Mean years of schooling`      0.006179691  0.010875299
+`HDI rank`                    -0.001831241 -0.001324349</code></pre>
+</div>
+</div></li>
+</ol>
+<p>У таблиці немає довірчих інтервалів 95%, що містять нуль, отже всі коефіцієнти є статистично значущими на рівні значущості 0,05</p>
+<p><strong>Висновок:</strong> Отже, дана модель є кращою для майбутніх досліджень з точки зору інтерпритації та чудовою з точки зору прогнозування, але судячи з графіку— краще використовувати 1-у модель, то який вибір слід зробити? На допомогу приходить дослідження явища гетероскедастичності</p>
+</section>
+</section>
+<section id="перевірка-моделі-на-явність-явища-гетероскедастичності" class="level1">
+<h1>Перевірка моделі на явність явища гетероскедастичності</h1>
+<p><strong><em>Гетероскедастичність—</em></strong> це випадкові величини, що мають різну дисперсію. Головна проблема заключається в тому, що це явище зміщує стандартні помилки оцінок моделі та вони будуть неточними ## Перевірка графічно Візуаізуємо відхилення для перевірки на гетероскедастичність для моделі з МЛР зі всіма змінними</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> MLR_lm<span class="sc">$</span>fitted.values, <span class="at">residual =</span> MLR_lm<span class="sc">$</span>residuals)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Прогнозовані значення ціни на житло"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Візуаізуємо відхилення для перевірки на гетероскедастичність для моделі з МЛР з 3-ма змінними</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> MLR_lm_1<span class="sc">$</span>fitted.values, <span class="at">residual =</span> MLR_lm_1<span class="sc">$</span>residuals)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Прогнозовані значення рівня людського розвитку"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="проведення-тестів-на-явище-гетероскедастичності" class="level2">
+<h2 class="anchored" data-anchor-id="проведення-тестів-на-явище-гетероскедастичності">Проведення тестів на явище гетероскедастичності</h2>
+<p>Існує декілька методів перевірки цього явища, зупинемось на двох тестах: тест Уайта та тест Гольфельда-Квандта</p>
+<section id="тест-уайта" class="level3">
+<h3 class="anchored" data-anchor-id="тест-уайта">Тест Уайта:</h3>
+<p>Щоб порахувати LM статистику для тесту, слід перемножити значення R^2 і розмір вибірки. Ця статистика розподілена згідно з хі-квадрат розподілом зі ступенями свободи, що дорівнюють числу оцінюваних параметрів (в допоміжній регресії) мінус один. 1) Тест для 1-ої моделі з усіма змінними:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>MLR_lm_white <span class="ot">&lt;-</span> <span class="fu">white</span>(MLR_lm)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>MLR_lm_white </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  statistic p.value parameter method       alternative
+      &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+1      28.9 0.00403        12 White's Test greater    </code></pre>
+</div>
+</div>
+<p>Тест для 2-ої моделі з усіма змінними:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>MLR_lm_1_white <span class="ot">&lt;-</span> <span class="fu">white</span>(MLR_lm_1)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>MLR_lm_1_white</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  statistic  p.value parameter method       alternative
+      &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+1      29.7 0.000236         8 White's Test greater    </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"p-value що в першій моделі"</span>,MLR_lm_white<span class="sc">$</span>p.value, <span class="st">",що в другій"</span>, MLR_lm_1_white<span class="sc">$</span>p.value, <span class="st">"менші за 0,05, що відхиляє 0 гіпотезу про однорідність дисперсій"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>p-value що в першій моделі 0.004032964 ,що в другій 0.0002359707 менші за 0,05, що відхиляє 0 гіпотезу про однорідність дисперсій</code></pre>
+</div>
+</div>
+</section>
 </section>
 </section>
 
