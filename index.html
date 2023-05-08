@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Oleksandr Neschasnij">
-<meta name="dcterms.date" content="2023-05-06">
+<meta name="dcterms.date" content="2023-05-08">
 
-<title>Курсова робота по економетриці на тему: Дослідження впливу різних факторів на рівень людського розвитку в різних країнах</title>
+<title>Курсова робота по економетриці на тему: Дослідження впливу різних факторів на рівень людського розвитку</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -112,7 +112,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul class="collapse">
   <li><a href="#план" id="toc-план" class="nav-link active" data-scroll-target="#план">План</a></li>
+  <li><a href="#вступ" id="toc-вступ" class="nav-link" data-scroll-target="#вступ">Вступ</a>
+  <ul class="collapse">
   <li><a href="#пояснення-змінних-у-датасеті" id="toc-пояснення-змінних-у-датасеті" class="nav-link" data-scroll-target="#пояснення-змінних-у-датасеті">Пояснення змінних у датасеті</a></li>
+  </ul></li>
   <li><a href="#побудова-млр-за-мнк" id="toc-побудова-млр-за-мнк" class="nav-link" data-scroll-target="#побудова-млр-за-мнк">Побудова МЛР за МНК</a>
   <ul class="collapse">
   <li><a href="#метод-найменших-квадратів-по-кроково" id="toc-метод-найменших-квадратів-по-кроково" class="nav-link" data-scroll-target="#метод-найменших-квадратів-по-кроково">Метод найменших квадратів по кроково</a></li>
@@ -120,12 +123,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#пошук-найкращої-млр" id="toc-пошук-найкращої-млр" class="nav-link" data-scroll-target="#пошук-найкращої-млр">Пошук найкращої МЛР</a></li>
   <li><a href="#модель-з-використанням-декількох-змінних" id="toc-модель-з-використанням-декількох-змінних" class="nav-link" data-scroll-target="#модель-з-використанням-декількох-змінних">Модель з використанням декількох змінних</a></li>
   </ul></li>
+  <li><a href="#дослідження-автокореляції" id="toc-дослідження-автокореляції" class="nav-link" data-scroll-target="#дослідження-автокореляції">Дослідження автокореляції</a>
+  <ul class="collapse">
+  <li><a href="#візуальна-перевірка-на-присутність-автокореляції" id="toc-візуальна-перевірка-на-присутність-автокореляції" class="nav-link" data-scroll-target="#візуальна-перевірка-на-присутність-автокореляції">Візуальна перевірка на присутність автокореляції</a></li>
+  <li><a href="#тест-дарбіна-вотсона" id="toc-тест-дарбіна-вотсона" class="nav-link" data-scroll-target="#тест-дарбіна-вотсона">Тест Дарбіна-Вотсона</a></li>
+  </ul></li>
   <li><a href="#перевірка-моделі-на-явність-явища-гетероскедастичності" id="toc-перевірка-моделі-на-явність-явища-гетероскедастичності" class="nav-link" data-scroll-target="#перевірка-моделі-на-явність-явища-гетероскедастичності">Перевірка моделі на явність явища гетероскедастичності</a>
   <ul class="collapse">
   <li><a href="#візуалізація-неоднорідної-дисперсії" id="toc-візуалізація-неоднорідної-дисперсії" class="nav-link" data-scroll-target="#візуалізація-неоднорідної-дисперсії">Візуалізація неоднорідної дисперсії</a></li>
-  <li><a href="#проведення-тестів-на-явище-гетероскедастичності" id="toc-проведення-тестів-на-явище-гетероскедастичності" class="nav-link" data-scroll-target="#проведення-тестів-на-явище-гетероскедастичності">Проведення тестів на явище гетероскедастичності</a></li>
+  <li><a href="#проведення-тесту-на-явище-гетероскедастичності" id="toc-проведення-тесту-на-явище-гетероскедастичності" class="nav-link" data-scroll-target="#проведення-тесту-на-явище-гетероскедастичності">Проведення тесту на явище гетероскедастичності</a></li>
   <li><a href="#зменшення-впливу-явища-гетероскедастичності-на-зміщення-оцінки-стандартної-похибки" id="toc-зменшення-впливу-явища-гетероскедастичності-на-зміщення-оцінки-стандартної-похибки" class="nav-link" data-scroll-target="#зменшення-впливу-явища-гетероскедастичності-на-зміщення-оцінки-стандартної-похибки">Зменшення впливу явища гетероскедастичності на зміщення оцінки стандартної похибки</a></li>
   </ul></li>
+  <li><a href="#висновок" id="toc-висновок" class="nav-link" data-scroll-target="#висновок">Висновок</a></li>
   </ul>
 </nav>
 </div>
@@ -133,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Курсова робота по економетриці на тему: Дослідження впливу різних факторів на рівень людського розвитку в різних країнах</h1>
+<h1 class="title">Курсова робота по економетриці на тему: Дослідження впливу різних факторів на рівень людського розвитку</h1>
 <p class="subtitle lead">Мета: дослідит вплив різних факторів на рівень людського розвитку, використовуючи мову програмування R та датасет Human Development Index Dataset, знайти та побудувати модель МЛР за методом МНК, що буде найкращою з точки зору прогнозування та інтерпритації, перевірити на гетероскедастичність та прибрати чи зменшити її вплив на точність моделі. Перевірити результат та зробити висновки</p>
 </div>
 
@@ -151,7 +160,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Дата публікації</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 6, 2023</p>
+      <p class="date">May 8, 2023</p>
     </div>
   </div>
   
@@ -166,12 +175,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol type="1">
 <li>Вступ</li>
 <li>Побудова МЛР за МНК. Пошук найкращої МЛР. Перевірка моделі на нульову гіпотезу та наявність статистично значущого взаємозв’язку між змінними;</li>
-<li>Перевірка моделі на явність явища гетероскедастичності</li>
-<li>Використання моделі для виведення результатів за допомогою симплекс-методу</li>
+<li>Дослідження автокореляції;</li>
+<li>Перевірка моделі на явність явища гетероскедастичності;</li>
+<li>Висоновок</li>
 </ol>
 </section>
-<section id="пояснення-змінних-у-датасеті" class="level1">
-<h1>Пояснення змінних у датасеті</h1>
+<section id="вступ" class="level1">
+<h1>Вступ</h1>
+<p>Економетрика - це наука, яка поєднує методи статистики, математики та економіки з метою дослідження економічних явищ, прогнозування їх розвитку та оцінки впливу різних факторів на економіку.</p>
+<p>Human Development Index, HDI — інтегральний показник, що розраховується щорічно для міждержавного порівняння і вимірювання рівня життя, грамотності, освіченості і довголіття, як основних характеристик людського потенціалу досліджуваної території.</p>
+<p>Залежно від значення ІЛР країни прийнято класифікувати за рівнем розвитку: дуже високий (42 країни), високий (43 країни), середній (42 країни) і низький (42 країни)</p>
+<p>У даній роботі я хотів би дослідити дослідит вплив різних факторів на рівень людського розвитку та створити математичну модель, що буде наближена до ідеальної для майбутніх прогнозувань показників.</p>
+<section id="пояснення-змінних-у-датасеті" class="level2">
+<h2 class="anchored" data-anchor-id="пояснення-змінних-у-датасеті">Пояснення змінних у датасеті</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>read_file</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -238,6 +254,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
+</section>
 </section>
 <section id="побудова-млр-за-мнк" class="level1">
 <h1>Побудова МЛР за МНК</h1>
@@ -508,6 +525,68 @@ F-statistic:  1770 on 4 and 95 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><strong>Висновок:</strong> Отже, дана модель є кращою для майбутніх досліджень з точки зору інтерпритації та чудовою з точки зору прогнозування, але судячи з графіку— краще використовувати 1-у модель, то який вибір слід зробити? На допомогу приходить дослідження явища гетероскедастичності</p>
 </section>
 </section>
+<section id="дослідження-автокореляції" class="level1">
+<h1>Дослідження автокореляції</h1>
+<p><strong><em>Автокореляція</em></strong> - це кореляція між певними змінними та їхніми відстежуваними значеннями з попередніх періодів. Автокореляція вказує на наявність залежності між значеннями одного і того ж або різних змінних в часовому ряді. Зазвичай це означає, що попередні значення змінної можуть впливати на наступні значення. Це може мати важливі наслідки для аналізу даних, оскільки може призвести до викривлення статистичних оцінок і несправедливих висновків.</p>
+<p>Автокореляція виявляється за допомогою коефіцієнта автокореляції, який може приймати значення від -1 до 1. Значення коефіцієнта близьке до 1 означає, що попередні значення мають сильний вплив на наступні значення, тоді як значення близьке до 0 означає слабку або відсутню автокореляцію. Значення коефіцієнта близьке до -1 означає, що попередні значення мають протилежний вплив на наступні значення.</p>
+<p><strong><em>Коли варто її очікувати?</em></strong></p>
+<ol type="1">
+<li><p>“Близкість” спостережень у часі чи у просторі;</p></li>
+<li><p>Наявність неспостережуваних фактора, що діє на “сусідні” спостереження</p></li>
+</ol>
+<p><strong><em>Чому ми звертаємо увагу на автокореляцію?</em></strong></p>
+<p>Це не таке невинне явище як гетероскедастичність, адже навіть якщо вона присутня, то ніяк не впливає на спроможність оцінок бета з дахом, тобто з ростом кількості спостережень, оцінки отримані МНК, все більше й більше схожі на справжні невідомі бета, які хочемо оцінити. З автокореляцією навіть у дуже простій ситуації може трапитись те, що оцінки бета з дахом в ситуації з корельованими помилками не є спроможними.</p>
+<section id="візуальна-перевірка-на-присутність-автокореляції" class="level2">
+<h2 class="anchored" data-anchor-id="візуальна-перевірка-на-присутність-автокореляції">Візуальна перевірка на присутність автокореляції</h2>
+<p>Для 1-ої моделі:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(MLR_lm<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Для 2-ої моделі:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(MLR_lm_1<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Інтерпритація таких графіків доволі проста. На даних графіках спостерігається значення автокорильованих залишків, що взаємодіють між собою. Вісь х відповідає різним лагам, тобто числу періодів, за якими розраховується коефіцієнт автокореляції, а вісь у показує кореляцію для кожного з відставань. Пунктирна блакитна лінія покаїзує рівень значущості.</p>
+<p>Перша вертикальна лінія, де лаг— 0, показує кореляцію залишків із самим собою, тому завжди 100%-ва.</p>
+<p>При відсутності автокореляції наступні вертикальні смуги будуть швидко спадати, як в 2-ох моделях</p>
+</section>
+<section id="тест-дарбіна-вотсона" class="level2">
+<h2 class="anchored" data-anchor-id="тест-дарбіна-вотсона">Тест Дарбіна-Вотсона</h2>
+<p>Також перевірити наявність цього явища можна за допомогою тесту Д-В</p>
+<p><strong><em>Тест Дарбіна-Вотсона</em></strong> - це статистичний тест на автокореляцію ряду залишків після регресійного аналізу. Він дозволяє виявити наявність автокореляції першого порядку в залишках регресійної моделі.</p>
+<p>Для першої моделі</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(MLR_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  MLR_lm
+DW = 1.7501, p-value = 0.1025
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+</div>
+</div>
+<p>Для другої моделі:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(MLR_lm_1)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  MLR_lm_1
+DW = 1.555, p-value = 0.01242
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+</div>
+</div>
+<p>DW-статистика менше 2 у 2-ох моделях, отже є позитивна автокореляція. p-значення менше 0.05 у 2-ій моделі, то можна відхилити гіпотезу про відсутність автокореляції першого порядку, а у 1-й моделі p-значення більше за 0,05, то можна прийняти гіпотезу.</p>
+</section>
+</section>
 <section id="перевірка-моделі-на-явність-явища-гетероскедастичності" class="level1">
 <h1>Перевірка моделі на явність явища гетероскедастичності</h1>
 <p><strong><em>Гетероскедастичність—</em></strong> це випадкові величини, що мають різну дисперсію. Головна проблема заключається в тому, що це явище зміщує стандартні помилки оцінок моделі та вони будуть неточними</p>
@@ -515,32 +594,32 @@ F-statistic:  1770 on 4 and 95 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2 class="anchored" data-anchor-id="візуалізація-неоднорідної-дисперсії">Візуалізація неоднорідної дисперсії</h2>
 <p>Візуаізуємо відхилення для перевірки на гетероскедастичність для моделі з МЛР зі всіма змінними</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> MLR_lm<span class="sc">$</span>fitted.values, <span class="at">residual =</span> MLR_lm<span class="sc">$</span>residuals)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Прогнозовані значення ціни на житло"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> MLR_lm<span class="sc">$</span>fitted.values, <span class="at">residual =</span> MLR_lm<span class="sc">$</span>residuals)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Прогнозовані значення ціни на житло"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Візуалізуємо відхилення для перевірки на гетероскедастичність для моделі з МЛР з декількома змінними</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> MLR_lm_1<span class="sc">$</span>fitted.values, <span class="at">residual =</span> MLR_lm_1<span class="sc">$</span>residuals)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Прогнозовані значення рівня людського розвитку"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> MLR_lm_1<span class="sc">$</span>fitted.values, <span class="at">residual =</span> MLR_lm_1<span class="sc">$</span>residuals)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Прогнозовані значення рівня людського розвитку"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Робимо висновок, що візуально дисперсія оцінок наявна, але можна перевірити гіпотезу гетероскедастичності можна й по іншому</p>
+<p>Робимо висновок, що візуально дисперсія оцінок наявна у кожній моделі, але можна перевірити гіпотезу гетероскедастичності можна й по іншому</p>
 </section>
-<section id="проведення-тестів-на-явище-гетероскедастичності" class="level2">
-<h2 class="anchored" data-anchor-id="проведення-тестів-на-явище-гетероскедастичності">Проведення тестів на явище гетероскедастичності</h2>
+<section id="проведення-тесту-на-явище-гетероскедастичності" class="level2">
+<h2 class="anchored" data-anchor-id="проведення-тесту-на-явище-гетероскедастичності">Проведення тесту на явище гетероскедастичності</h2>
 <p>Існує декілька методів перевірки цього явища, зупинемось на тесті Уайта.</p>
 <section id="тест-уайта" class="level3">
 <h3 class="anchored" data-anchor-id="тест-уайта">Тест Уайта:</h3>
@@ -549,8 +628,8 @@ F-statistic:  1770 on 4 and 95 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>Тест для 1-ої моделі з усіма змінними:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>MLR_lm_white <span class="ot">&lt;-</span> <span class="fu">white</span>(MLR_lm)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>MLR_lm_white </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>MLR_lm_white <span class="ot">&lt;-</span> <span class="fu">white</span>(MLR_lm)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>MLR_lm_white </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 5
   statistic p.value parameter method       alternative
@@ -560,8 +639,8 @@ F-statistic:  1770 on 4 and 95 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>Тест для 2-ої моделі з усіма змінними:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>MLR_lm_1_white <span class="ot">&lt;-</span> <span class="fu">white</span>(MLR_lm_1)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>MLR_lm_1_white</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>MLR_lm_1_white <span class="ot">&lt;-</span> <span class="fu">white</span>(MLR_lm_1)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>MLR_lm_1_white</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 5
   statistic  p.value parameter method       alternative
@@ -570,7 +649,7 @@ F-statistic:  1770 on 4 and 95 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"p-value що в першій моделі"</span>,MLR_lm_white<span class="sc">$</span>p.value, <span class="st">",що в другій"</span>, MLR_lm_1_white<span class="sc">$</span>p.value, <span class="st">"менші за 0,05, що відхиляє 0 гіпотезу про однорідність дисперсій"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"p-value що в першій моделі"</span>,MLR_lm_white<span class="sc">$</span>p.value, <span class="st">",що в другій"</span>, MLR_lm_1_white<span class="sc">$</span>p.value, <span class="st">"менші за 0,05, що відхиляє 0 гіпотезу про однорідність дисперсій"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>p-value що в першій моделі 0.004032964 ,що в другій 0.0002359707 менші за 0,05, що відхиляє 0 гіпотезу про однорідність дисперсій</code></pre>
 </div>
@@ -588,9 +667,9 @@ F-statistic:  1770 on 4 and 95 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>Для першої моделі:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>test_reg_1 <span class="ot">&lt;-</span> <span class="fu">feols</span>(HDI <span class="sc">~</span> Life <span class="sc">+</span> Expected <span class="sc">+</span> Mean <span class="sc">+</span> Rank <span class="sc">+</span> Minus <span class="sc">+</span> GNI, <span class="at">data =</span> MLR_cor)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_reg_1, <span class="at">vcov =</span> <span class="st">'hetero'</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>test_reg_1 <span class="ot">&lt;-</span> <span class="fu">feols</span>(HDI <span class="sc">~</span> Life <span class="sc">+</span> Expected <span class="sc">+</span> Mean <span class="sc">+</span> Rank <span class="sc">+</span> Minus <span class="sc">+</span> GNI, <span class="at">data =</span> MLR_cor)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_reg_1, <span class="at">vcov =</span> <span class="st">'hetero'</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>OLS estimation, Dep. Var.: HDI
 Observations: 100 
@@ -607,20 +686,20 @@ GNI         -0.000000369 0.000000156  -2.36173 2.0276e-02 *
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 RMSE: 0.008753   Adj. R2: 0.995603</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get coefficient table with standard errors</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>coef_table <span class="ot">&lt;-</span> <span class="fu">tidy</span>(test_reg_1, <span class="at">vcov =</span> <span class="st">"hetero"</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot coefficients with error bars</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(coef_table, <span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate, <span class="at">ymin =</span> estimate <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>std.error, <span class="at">ymax =</span> estimate <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>std.error)) <span class="sc">+</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Коефіцієнти регересії з HRSE моделі зі всіма змінними"</span>, </span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Змінна"</span>, <span class="at">y =</span> <span class="st">"Оцінка коефіцієнта"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get coefficient table with standard errors</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>coef_table <span class="ot">&lt;-</span> <span class="fu">tidy</span>(test_reg_1, <span class="at">vcov =</span> <span class="st">"hetero"</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot coefficients with error bars</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(coef_table, <span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate, <span class="at">ymin =</span> estimate <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>std.error, <span class="at">ymax =</span> estimate <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>std.error)) <span class="sc">+</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Коефіцієнти регересії з HRSE моделі зі всіма змінними"</span>, </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Змінна"</span>, <span class="at">y =</span> <span class="st">"Оцінка коефіцієнта"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_reg_1, <span class="at">vcov =</span> <span class="st">'iid'</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_reg_1, <span class="at">vcov =</span> <span class="st">'iid'</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>OLS estimation, Dep. Var.: HDI
 Observations: 100 
@@ -637,27 +716,27 @@ GNI         -0.000000369 0.000000129  -2.86059 5.2216e-03 **
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 RMSE: 0.008753   Adj. R2: 0.995603</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get coefficient table with standard errors</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>coef_table <span class="ot">&lt;-</span> <span class="fu">tidy</span>(test_reg_1, <span class="at">vcov =</span> <span class="st">"iid"</span>)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot coefficients with error bars</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(coef_table, <span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate, <span class="at">ymin =</span> estimate <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>std.error, <span class="at">ymax =</span> estimate <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>std.error)) <span class="sc">+</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"green"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Коефіцієнти регересії без HRSE моделі зі всіма змінними"</span>, </span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Змінні"</span>, <span class="at">y =</span> <span class="st">"Оцінка коефіцієнта"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get coefficient table with standard errors</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>coef_table <span class="ot">&lt;-</span> <span class="fu">tidy</span>(test_reg_1, <span class="at">vcov =</span> <span class="st">"iid"</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot coefficients with error bars</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(coef_table, <span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate, <span class="at">ymin =</span> estimate <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>std.error, <span class="at">ymax =</span> estimate <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>std.error)) <span class="sc">+</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"green"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Коефіцієнти регересії без HRSE моделі зі всіма змінними"</span>, </span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Змінні"</span>, <span class="at">y =</span> <span class="st">"Оцінка коефіцієнта"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <ol start="2" type="1">
 <li>Для другої моделі:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>test_reg <span class="ot">&lt;-</span> <span class="fu">feols</span>(HDI <span class="sc">~</span> Life <span class="sc">+</span> Expected <span class="sc">+</span> Mean <span class="sc">+</span> Rank, <span class="at">data =</span> MLR_cor)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_reg, <span class="at">vcov =</span> <span class="st">'hetero'</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>test_reg <span class="ot">&lt;-</span> <span class="fu">feols</span>(HDI <span class="sc">~</span> Life <span class="sc">+</span> Expected <span class="sc">+</span> Mean <span class="sc">+</span> Rank, <span class="at">data =</span> MLR_cor)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_reg, <span class="at">vcov =</span> <span class="st">'hetero'</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>OLS estimation, Dep. Var.: HDI
 Observations: 100 
@@ -672,19 +751,19 @@ Rank        -0.001578   0.000138 -11.39952  &lt; 2.2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 RMSE: 0.015672   Adj. R2: 0.9862</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>coef_table <span class="ot">&lt;-</span> <span class="fu">tidy</span>(test_reg, <span class="at">vcov =</span> <span class="st">"hetero"</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(coef_table, <span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate, <span class="at">ymin =</span> estimate <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>std.error, <span class="at">ymax =</span> estimate <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>std.error)) <span class="sc">+</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Коефіцієнти регересії з HRSE моделі з декількома змінними"</span>, </span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Змінна"</span>, <span class="at">y =</span> <span class="st">"Оцінка коефіцієнта"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>coef_table <span class="ot">&lt;-</span> <span class="fu">tidy</span>(test_reg, <span class="at">vcov =</span> <span class="st">"hetero"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(coef_table, <span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate, <span class="at">ymin =</span> estimate <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>std.error, <span class="at">ymax =</span> estimate <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>std.error)) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Коефіцієнти регересії з HRSE моделі з декількома змінними"</span>, </span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Змінна"</span>, <span class="at">y =</span> <span class="st">"Оцінка коефіцієнта"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_reg, <span class="at">vcov =</span> <span class="st">'iid'</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_reg, <span class="at">vcov =</span> <span class="st">'iid'</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>OLS estimation, Dep. Var.: HDI
 Observations: 100 
@@ -699,33 +778,28 @@ Rank        -0.001578   0.000128 -12.35894  &lt; 2.2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 RMSE: 0.015672   Adj. R2: 0.9862</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>coef_table <span class="ot">&lt;-</span> <span class="fu">tidy</span>(test_reg, <span class="at">vcov =</span> <span class="st">"iid"</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(coef_table, <span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate, <span class="at">ymin =</span> estimate <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>std.error, <span class="at">ymax =</span> estimate <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>std.error)) <span class="sc">+</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"green"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Коефіцієнти регересії без HRSE моделі з декількома змінними"</span>, </span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Змінні"</span>, <span class="at">y =</span> <span class="st">"Оцінка коефіцієнта"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>coef_table <span class="ot">&lt;-</span> <span class="fu">tidy</span>(test_reg, <span class="at">vcov =</span> <span class="st">"iid"</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(coef_table, <span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate, <span class="at">ymin =</span> estimate <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>std.error, <span class="at">ymax =</span> estimate <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>std.error)) <span class="sc">+</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"green"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Коефіцієнти регересії без HRSE моделі з декількома змінними"</span>, </span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Змінні"</span>, <span class="at">y =</span> <span class="st">"Оцінка коефіцієнта"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>Висновок:</strong> Отже, робимо висновок, що перша модель зі всіма змінними є кращим варіантом для інтерпритації та прогнозування, адже вдалося зменшити дисперсію оцінок, а в 2-й моделі навпаки з’явилось ще більше відхилень.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(MLR_lm<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>, <span class="at">lag.max =</span> <span class="dv">30</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(MLR_lm_1<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>, <span class="at">lag.max =</span> <span class="dv">30</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
 </section>
 </section>
+</section>
+<section id="висновок" class="level1">
+<h1>Висновок</h1>
+<p>Отже, провівши декілька розрахунків та перевірку на явність деяких явищ, робимо висновок, що модель з врахування гетероскедастичності є найкращою для інтерпритації та прогнозування, адже всі показники та їх залежність між собою є статистично значущими, гіпотеза про автокореляцію у цій моделі відхиляється, а вплив дисперсії оцінок вдалося значно зменшити.</p>
+<p>Модель: <span class="math display">\[
+\hat{y_i} = 0.099 + {0.006}x_1 + {0.01}x_2 + {0.014}x_3 - {0.0008}x_4 - {0,002}x_5 - {0.0000004}x_6
+\]</span></p>
 </section>
 
 </main>
