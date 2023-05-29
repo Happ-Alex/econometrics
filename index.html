@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Oleksandr Neschasnij">
-<meta name="dcterms.date" content="2023-05-19">
+<meta name="dcterms.date" content="2023-05-29">
 
 <title>Курсова робота по економетриці на тему: Дослідження впливу різних факторів на рівень людського розвитку</title>
 <style>
@@ -98,6 +98,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background-image: url(images/banner.jpg);
+background-size: cover;
+    }
+    </style>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -105,75 +111,85 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <body>
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Курсова робота по економетриці на тему: Дослідження впливу різних факторів на рівень людського розвитку</h1>
+            <p class="subtitle lead">Мета: дослідит вплив різних факторів на рівень людського розвитку, використовуючи мову програмування R та датасет Human Development Index Dataset, знайти та побудувати модель МЛР за методом МНК, що буде найкращою з точки зору прогнозування та інтерпритації, перевірити на гетероскедастичність та прибрати чи зменшити її вплив на точність моделі. Перевірити результат та зробити висновки</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Автор</div>
+      <div class="quarto-title-meta-contents">
+               <p>Oleksandr Neschasnij </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Дата публікації</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 29, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
   <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Зміст</h2>
    
   <ul class="collapse">
   <li><a href="#вступ" id="toc-вступ" class="nav-link active" data-scroll-target="#вступ">Вступ</a></li>
-  <li><a href="#кластерний-аналіз" id="toc-кластерний-аналіз" class="nav-link" data-scroll-target="#кластерний-аналіз">Кластерний аналіз</a>
+  <li><a href="#теоретичні-основи-дослідження" id="toc-теоретичні-основи-дослідження" class="nav-link" data-scroll-target="#теоретичні-основи-дослідження">Теоретичні основи дослідження</a></li>
+  <li><a href="#програмна-реалізація-дослідження" id="toc-програмна-реалізація-дослідження" class="nav-link" data-scroll-target="#програмна-реалізація-дослідження">Програмна реалізація дослідження</a>
   <ul class="collapse">
-  <li><a href="#побудова-дендрограми" id="toc-побудова-дендрограми" class="nav-link" data-scroll-target="#побудова-дендрограми">Побудова дендрограми</a></li>
-  <li><a href="#результати-аналізу" id="toc-результати-аналізу" class="nav-link" data-scroll-target="#результати-аналізу">Результати аналізу</a></li>
+  <li><a href="#кластерний-аналіз" id="toc-кластерний-аналіз" class="nav-link" data-scroll-target="#кластерний-аналіз">Кластерний аналіз</a></li>
+  <li><a href="#регресійний-аналіз" id="toc-регресійний-аналіз" class="nav-link" data-scroll-target="#регресійний-аналіз">Регресійний аналіз</a></li>
   </ul></li>
-  <li><a href="#побудова-млр-за-мнк" id="toc-побудова-млр-за-мнк" class="nav-link" data-scroll-target="#побудова-млр-за-мнк">Побудова МЛР за МНК</a>
-  <ul class="collapse">
-  <li><a href="#побудова-моделі-країн-з-високим-ілр" id="toc-побудова-моделі-країн-з-високим-ілр" class="nav-link" data-scroll-target="#побудова-моделі-країн-з-високим-ілр">Побудова моделі країн з високим ІЛР</a></li>
-  <li><a href="#побудова-моделі-країн-з-низьким-ілр" id="toc-побудова-моделі-країн-з-низьким-ілр" class="nav-link" data-scroll-target="#побудова-моделі-країн-з-низьким-ілр">Побудова моделі країн з низьким ІЛР</a></li>
-  </ul></li>
-  <li><a href="#дослідження-впливу-гетероскедастичночті-та-автокореляції-на-моделі" id="toc-дослідження-впливу-гетероскедастичночті-та-автокореляції-на-моделі" class="nav-link" data-scroll-target="#дослідження-впливу-гетероскедастичночті-та-автокореляції-на-моделі">Дослідження впливу гетероскедастичночті та автокореляції на моделі</a>
+  <li><a href="#дослідження-впливу-гетероскедастичночті-на-моделі" id="toc-дослідження-впливу-гетероскедастичночті-на-моделі" class="nav-link" data-scroll-target="#дослідження-впливу-гетероскедастичночті-на-моделі">Дослідження впливу гетероскедастичночті на моделі</a>
   <ul class="collapse">
   <li><a href="#перевірка-на-явність-гетероскедастичності-у-моделі-з-високим-ілр" id="toc-перевірка-на-явність-гетероскедастичності-у-моделі-з-високим-ілр" class="nav-link" data-scroll-target="#перевірка-на-явність-гетероскедастичності-у-моделі-з-високим-ілр">Перевірка на явність гетероскедастичності у моделі з високим ІЛР</a></li>
+  <li><a href="#перевірка-на-явність-гетероскедастичності-у-моделі-з-стандартнимсереднім-ілр" id="toc-перевірка-на-явність-гетероскедастичності-у-моделі-з-стандартнимсереднім-ілр" class="nav-link" data-scroll-target="#перевірка-на-явність-гетероскедастичності-у-моделі-з-стандартнимсереднім-ілр">Перевірка на явність гетероскедастичності у моделі з стандартним(середнім) ІЛР</a></li>
   <li><a href="#перевірка-на-явність-гетероскедастичності-у-моделі-з-низьким-ілр" id="toc-перевірка-на-явність-гетероскедастичності-у-моделі-з-низьким-ілр" class="nav-link" data-scroll-target="#перевірка-на-явність-гетероскедастичності-у-моделі-з-низьким-ілр">Перевірка на явність гетероскедастичності у моделі з низьким ІЛР</a></li>
-  <li><a href="#дослідження-автокореляції" id="toc-дослідження-автокореляції" class="nav-link" data-scroll-target="#дослідження-автокореляції">Дослідження автокореляції</a></li>
+  </ul></li>
+  <li><a href="#дослідження-автокореляції" id="toc-дослідження-автокореляції" class="nav-link" data-scroll-target="#дослідження-автокореляції">Дослідження автокореляції</a>
+  <ul class="collapse">
   <li><a href="#перевірка-на-явність-автокореляції-у-моделі-з-високим-ілр" id="toc-перевірка-на-явність-автокореляції-у-моделі-з-високим-ілр" class="nav-link" data-scroll-target="#перевірка-на-явність-автокореляції-у-моделі-з-високим-ілр">Перевірка на явність автокореляції у моделі з високим ІЛР</a></li>
+  <li><a href="#перевірка-на-явність-автокореляції-у-моделі-з-стандартним-ілр" id="toc-перевірка-на-явність-автокореляції-у-моделі-з-стандартним-ілр" class="nav-link" data-scroll-target="#перевірка-на-явність-автокореляції-у-моделі-з-стандартним-ілр">Перевірка на явність автокореляції у моделі з стандартним ІЛР</a></li>
   <li><a href="#перевірка-на-явність-автокореляції-у-моделі-з-низьким-ілр" id="toc-перевірка-на-явність-автокореляції-у-моделі-з-низьким-ілр" class="nav-link" data-scroll-target="#перевірка-на-явність-автокореляції-у-моделі-з-низьким-ілр">Перевірка на явність автокореляції у моделі з низьким ІЛР</a></li>
   </ul></li>
   <li><a href="#висновок" id="toc-висновок" class="nav-link" data-scroll-target="#висновок">Висновок</a></li>
   </ul>
 </nav>
 </div>
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Курсова робота по економетриці на тему: Дослідження впливу різних факторів на рівень людського розвитку</h1>
-<p class="subtitle lead">Мета: дослідит вплив різних факторів на рівень людського розвитку, використовуючи мову програмування R та датасет Human Development Index Dataset, знайти та побудувати модель МЛР за методом МНК, що буде найкращою з точки зору прогнозування та інтерпритації, перевірити на гетероскедастичність та прибрати чи зменшити її вплив на точність моделі. Перевірити результат та зробити висновки</p>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Автор</div>
-    <div class="quarto-title-meta-contents">
-             <p>Oleksandr Neschasnij </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Дата публікації</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">May 19, 2023</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
-
-</header>
 
 <section id="вступ" class="level1">
 <h1>Вступ</h1>
-<p>У зростаючої епохи глобалізації та технологічного розквіту, людський розвиток стає предметом все більшої уваги для наукових дослідників, політиків та громадськості загалом. З давніх часів людство постійно намагається покращити умови свого життя та досягнути нових вершин.</p>
-<p>Людський розвиток є взаємопов’язаним з багатьма факторами як економічний прогрес, соціальні зміни, політичну стабільність, наукові дослідження та культурний розвиток, а також включає в себе забезпечення основних потреб людей, таких як доступ до якісної освіти, охорони здоров’я, житла та безпеки. Проте потрібно розуміти що, розвиток не обмежується лише матеріальними аспектами, а також визначається якістю життя, рівнем освіти, культурними цінностями та взаємними відносинами у суспільстві. В умовах сучасного світу, людський розвиток вимагає неустанного пошуку нових рішень, інновацій та стратегій для вирішення сучасних викликів.</p>
+<p>В епоху технологічного розквіту, людський розвиток стає предметом все більшої уваги для наукових дослідників, політиків та громадськості загалом. З давніх часів людство постійно намагається покращити умови свого життя та досягнути нових вершин.</p>
+<p>Людський розвиток взаємопов’язаний з багатьма факторами, як то економічний прогрес, соціальні зміни, політична стабільність, наукові дослідження та культурний розвиток, а також включає в себе забезпечення основних потреб людей, таких як доступ до якісної освіти, охорони здоров’я, житла та безпеки. Проте потрібно розуміти, що розвиток не обмежується лише матеріальними аспектами, а також визначається якістю життя, рівнем освіти, культурними цінностями та взаємними відносинами у суспільстві. В умовах сучасного світу, людський розвиток вимагає невпинного пошуку нових рішень, інновацій та стратегій для вирішення сучасних викликів.</p>
 <p><strong><em>Індекс людського розвитку(ІЛР або індекс розвитку людського потенціалу(ІРЛП))</em></strong> — інтегральний показник, що розраховується щорічно для міждержавного порівняння і вимірювання рівня життя, грамотності, освіченості і довголіття, як основних характеристик людського потенціалу досліджуваної території.</p>
-<p>Індекс розроблено і введено в обіг у 1990 р. пакистанським економістом Махбубом-уль-Хаком і використовується ООН з 1993 р. у звітах про розвиток потенціалу людини. Використовується як статистичний інструмент для порівняння розвитку соціальної сфери різних країн. Зміст показника полягає в такому: чим ближче ІЛР до одиниці, тим вищі можливості для реалізації людського потенціалу завдяки поліпшенню рівня освіти, доходу і тривалості життя.</p>
-<p><strong><em>Мета:</em></strong> Дослідити вплив різних показників на індекс розвитку людини, перевірити чи присутня нерівність серед чоловіків та жінок, що спричиняє зниження ІПРЛ, дослідити чи може тренд ІЛР вплинути на результат моделі МЛР.</p>
-<p><strong><em>Об’єкт дослідження:</em></strong> База даних, що містить інформацію про індекс людського розвитку:</p>
+<p>Індекс розроблено і введено в обіг у 1990 р. пакистанським економістом Махбубом-уль-Хаком і використовується ООН з 1993 р. у звітах про розвиток потенціалу людини. Використовується як статистичний інструмент для порівняння розвитку соціальної сфери різних країн. Зміст показника полягає в тому, що чим ближче ІЛР до одиниці, тим вищими є можливості для реалізації людського потенціалу завдяки поліпшенню рівня освіти, доходу і тривалості життя.</p>
+<p><strong><em>Об’єкт дослідження:</em></strong> Індекс людського розвитку у країнах світу.</p>
+<p><strong><em>Предмет дослідження:</em></strong> алгоритм Уорда, дендрограми, побудовані для кластерного аналізу; моделі, побудовані методом найменших квадратів; тест Уайта для дослідження гетероскедастичності; тест Дарбіна-Уотсона для перевірки автокореляції.</p>
+<p><strong><em>Мета роботи:</em></strong> Дослідити вплив різних показників на індекс розвитку людини, перевірити чи присутня нерівність серед чоловіків та жінок, що спричиняє зниження ІПРЛ. Для досягнення поставленої мети потрібно виконати такі завдання:</p>
+<ul>
+<li><p>Розділення групи об’єктів на підгрупи;</p></li>
+<li><p>Побудова моделі множинної лінійної регресії за допомогою методу найменших квадратів;</p></li>
+<li><p>Перевірити їхню статистичну значущість;</p></li>
+<li><p>Перевірити, чи зменшується ефективність моделі через явища автокореляції та гетероскедастичності.</p></li>
+</ul>
+<p><strong><em>Статистична база дослідження:</em></strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>read_file</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -255,13 +271,50 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>Male labour force participation rate</td>
 <td>Оцінка робочої зайнятості чоловіків</td>
 </tr>
-<tr class="even">
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
-<p>Також одразу потрібно перевірити чи наявні у датасеті NA, тобто пусті клітинки, що не містять інформації та завадять майбутнім дослідженням.</p>
+<p><strong>Дані розміщені на сайті:</strong> https://hdr.undp.org/data-center/documentation-and-downloads</p>
+</section>
+<section id="теоретичні-основи-дослідження" class="level1">
+<h1>Теоретичні основи дослідження</h1>
+<p><strong><em>Кластерний аналіз</em></strong> - це метод машинного навчання, що використовується для розділення групи об’єктів на підгрупи або кластери на основі схожості між ними.</p>
+<p><strong><em>Кластер</em></strong> - це група об’єктів або спостережень, які мають схожі характеристики або властивості. В даній роботі метод застосовується для виявлення груп країн з приблизно однаковим рівнем ІЛР.</p>
+<p>Для розв’язування задачі класифікації застосовано методи:</p>
+<p><strong><em>Алгоритм Уорда</em></strong> полягає в послідовному об’єднанні пар кластерів, що мають найменшу внутрішньокластерну варіацію, досягаючи побудови ієрархічної структури кластерів. Починаючи з кожного об’єкту як окремого кластера, алгоритм поступово об’єднує два найбільш схожих кластери, продовжуючи цей процес до отримання одного великого кластера, що об’єднує всі об’єкти.</p>
+<p><strong><em>Метод ліктя</em></strong> базується на графічному аналізі залежності між кількістю кластерів і сумою квадратів відстаней (внутрішньокластерних варіацій) між об’єктами і їхніми центрами кластерів. Цей метод надає інтуїтивний спосіб вибору кількості кластерів, орієнтуючись на точці, де крива перестає стрімкий спуск.</p>
+<p><strong><em>Силуетний метод</em></strong> дозволяє порівнювати різні алгоритми кластеризації та вибирати оптимальну кількість кластерів. Вибір кластерів з найвищими значеннями показника силуету вказує на найкращу кількість кластерів для даного набору даних.</p>
+<p><strong><em>Гап-статистика</em></strong> дозволяє порівнювати дисперсію внутрішнього кластерування даних з дисперсією, яка була б спостережена випадковим чином. Оптимальне значення кількості кластерів буде там, де різниця між цими двома дисперсіями буде максимальною.</p>
+<p><strong><em>Алгоритм K-середніх</em></strong>, що намагається знайти центроїди(середнє арифметичне всіх об’єктів, призначених до певного кластеру), що мінімізують сумарну квадратичну відстань між об’єктами і їхніми центроїдами.</p>
+<p>Для виявлення закономірностей у країнах з різним (найвищим та найнижчим) рівнем ІЛР скористаємось методами кореляційно-регресійного аналізу, які дають зможу виявляти не лише кореляційний зв’язок між різними соціально-економічними показниками, але й визначати форму залежності між ними. Показник, що досліджується (ІЛР), розглядається як результативний показник, який формується під впливом різних чинників, кожен з яких вносить певний пропорційний внесок у значення ІЛР. У цьому разі залежність представляється лінійним регресійним рівнянням</p>
+<p><strong><em>Метод найменших квадратів</em></strong>— статистичний методом, який використовується для оцінювання параметрів математичної моделі шляхом мінімізації суми квадратів розбіжностей між спостережуваними значеннями і передбаченими значеннями моделі.</p>
+<p>Рівняння прямої виглядає наступним чином:</p>
+<p><span class="math display">\[
+y_i= \beta_0 + \beta_1x_1 + \beta_2x_2 + ...+ \beta_nx_m+ \beta_{n+1}x_{m+1}+ u_i
+\]</span> Це рівняння називається множинною лінійною регресією.</p>
+<p>Розглянемо складові рівняння:</p>
+<ul>
+<li><p><span class="math inline">\(y\)</span>: залежна змінна.</p></li>
+<li><p><span class="math inline">\(\beta_0\)</span>: вільний параметр моделі, який відповідає за точку перетину прямої з вістю ординат.</p></li>
+<li><p><span class="math inline">\(\beta_{1,2,...,n,n+1}\)</span>: залежні параметри моделі, який відповідає за кут нахилу прямої.</p></li>
+<li><p><span class="math inline">\(x_{1,2,...,m,m+1}\)</span>: незалежні змінні.</p></li>
+<li><p><span class="math inline">\(u\)</span>: залишки моделі.</p></li>
+</ul>
+<p>Але у нашому розпорядженні є тільки певна вибірка даних і провести ідеальну пряму через всі точки неможливо. Тому необхідно розрахувати оцінки параметрів моделі, які будуть задовільняти нас:</p>
+<p><span class="math display">\[
+y_i= \hat{\beta}_0 + \beta_1x_1 + \hat{\beta}_2x_2 + ...+ \hat{\beta}_nx_m+ \hat{\beta}_{n+1}x_{m+1}+ u_i
+\]</span> Для узгодження загальної формули залежності зі спостереженими статистичними потрібно знайти такі оцінки параметрів моделі, за яких залишки моделі будуть найменшими для всієї сукупності спостережень. Для розв’язування цієї задачі застосовують метод найменших квадратів (МНК). Побудована в такий спосіб регресійна модель є лише статистичною гіпотезою, яка потребує статистичної перевірки.</p>
+<p><strong><em>F-критерій</em></strong>— це статистичний критерій, що використовується для перевірки загальної адекватності моделі через перевірку значущості коефіцієнта детермінації.</p>
+<p><strong><em>t-критерій</em></strong>— тест, який використовується для перевірки гіпотез про значущість окремих параметрів моделі і значущості кореляційного зв’язку між залежною і всіма незалежними змінними. Критерій базується на розподілі Стьюдента і має два обов’язкових параметри - ступені свободи (degrees of freedom) і рівень значущості.</p>
+<p><strong><em>p-значення</em></strong>— це ймовірність отримати спостережуване значення статистики, якщо нульова гіпотеза є правильною.</p>
+<p><strong><em>Коефіцієнт детермінації</em></strong> вказує, яка частина варіації залежної змінної пояснюється регресійною моделлю. Він лежить в діапазоні від 0 до 1. Значення 0 означає, що регресійна модель не може пояснити жодну варіацію залежної змінної, тоді як значення 1 вказує, що модель повністю пояснює варіацію залежної змінної.</p>
+<p><strong><em>Довірчі інтервали</em></strong>— це інтервал значень, що містить обраний параметр з ймовірністю 97.5% на рівні значущості 0.05.</p>
+</section>
+<section id="програмна-реалізація-дослідження" class="level1">
+<h1>Програмна реалізація дослідження</h1>
+<p>Всі розрахунки проводяться у середовищі RStudio, яке є інтегрованою розробкою, спеціально призначеною для програмування на мові R. RStudio надає ряд переваг для аналітики даних, статистичних досліджень і візуалізації даних.</p>
+<section id="кластерний-аналіз" class="level2">
+<h2 class="anchored" data-anchor-id="кластерний-аналіз">Кластерний аналіз</h2>
+<p>Якість будь-якого дослідження, що базується на статичних даних, залежить від якості відповідного набору даних. Тому першим кроком після завантаження даних потрібно перевірити наявність у датасеті NA, тобто порожніх клітин, що не містять інформації та заважають майбутнім дослідженням.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(read_file)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -276,48 +329,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>myModelCluster <span class="ot">&lt;-</span> myModel <span class="sc">%&gt;%</span> </span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>))</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong><em>Предмет дослідження:</em></strong> алгоритм Уорда, дендрограми, побудовані для кластерного аналізу; моделі, побудовані методом найменших квадратів; тест Уайта для дослідження гетероскедастичності; тест Дарбіна-Уотсона для перевірки автокореляції.</p>
-</section>
-<section id="кластерний-аналіз" class="level1">
-<h1>Кластерний аналіз</h1>
-<p><strong><em>Кластерний аналіз</em></strong> - це метод машинного навчання, що використовується для розділення групи об’єктів на підгрупи або кластери на основі схожості між ними.</p>
-<p><strong><em>Кластер</em></strong> - це група об’єктів або спостережень, які мають схожі характеристики або властивості. ## Знаходження оптимальної кількості кластерів</p>
-<p>Перед початком стандартизуємо показники, оскільки у більшості є інші системи вимірювання, що в майбутньому може вплинути на ефективність моделі</p>
+<p>Для подальшого аналізу даних потрібно згрупувати країни в однорідні групи. Це потрібно зробити в такий спосіб, щоб представники однієї групи мали схожі узагальнюючі характеристики. Для розв’язання цієї задачі скористаємось засобами кластерного аналізу.</p>
+<p>Щоб визначити оптимальну кількість кластерів та їх побудову, спершу необхідно стандартизувати показники, оскільки вони мають різні системи вимірювання, що може вплинути на ефективність моделі</p>
+<section id="оптимальна-кількість-кластерів" class="level3">
+<h3 class="anchored" data-anchor-id="оптимальна-кількість-кластерів">Оптимальна кількість кластерів</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>myModel_scale <span class="ot">&lt;-</span>  <span class="fu">scale</span>(myModelCluster[<span class="sc">-</span><span class="dv">1</span>], <span class="at">center=</span>T, <span class="at">scale=</span>T)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Запускаємо <strong><em>алгоритм Уорда</em></strong>, що полягає в послідовному об’єднанні пар кластерів, що мають найменшу внутрішньокластерну варіацію, досягаючи побудови ієрархічної структури кластерів. Починаючи з кожного об’єкту як окремого кластера, алгоритм поступово об’єднує два найбільш схожих кластери, продовжуючи цей процес до отримання одного великого кластера, що об’єднує всі об’єкти.</p>
+<p>Запускаємо <strong><em>алгоритм Уорда</em></strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>myModel_info <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(myModel_scale, <span class="at">method =</span> <span class="st">"euclidean"</span>), <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Перевірка оптимальної кількості кластерів за методами: ліктя, силуетним методом та gap_статистика</p>
+<p><strong><em>Метод ліктя</em></strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(myModel_scale, kmeans, <span class="at">method =</span> <span class="st">"wss"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><strong><em>Метод ліктя</em></strong> базується на графічному аналізі залежності між кількістю кластерів і сумою квадратів відстаней (внутрішньокластерних варіацій) між об’єктами і їхніми центрами кластерів. Цей метод надає інтуїтивний спосіб вибору кількості кластерів, орієнтуючись на точці, де крива перестає стрімкий спуск.</p>
 <p>За даним методом кількість кластерів дорівнює 3-ом</p>
+<p><strong><em>Силуетний метод</em></strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(myModel_scale, kmeans, <span class="at">method =</span> <span class="st">"silhouette"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><strong><em>Силуетний метод</em></strong> дозволяє порівнювати різні алгоритми кластеризації та вибирати оптимальну кількість кластерів. Вибір кластерів з найвищими значеннями показника силуету вказує на найкращу кількість кластерів для даного набору даних.</p>
 <p>За даним методом кількість кластерів дорівнює 2-ом</p>
+<p><strong><em>Гап-статистика</em></strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(myModel_scale, kmeans, <span class="at">method =</span> <span class="st">"gap_stat"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><strong><em>Гап-статистика</em></strong> дозволяє порівнювати дисперсію внутрішнього кластерування даних з дисперсією, яка була б спостережена випадковим чином. Оптимальне значення кількості кластерів буде там, де різниця між цими двома дисперсіями буде максимальною.</p>
 <p>За даним методом кількість кластерів дорівнює 3-ом</p>
-<p>Отже, оптимальна кількість кластерів— 3.</p>
-<section id="побудова-дендрограми" class="level2">
-<h2 class="anchored" data-anchor-id="побудова-дендрограми">Побудова дендрограми</h2>
+<p><strong><em>Отже, оптимальна кількість кластерів— 3.</em></strong></p>
+</section>
+<section id="побудова-дендрограми" class="level3">
+<h3 class="anchored" data-anchor-id="побудова-дендрограми">Побудова дендрограми</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>vision <span class="ot">&lt;-</span> <span class="fu">cutree</span>(myModel_info, <span class="at">k=</span><span class="dv">3</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(myModel_info)</span>
@@ -326,7 +377,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Отримавши 3 групи країн, визначемо, який кластер має високий ІРЛ, а який низький. За допомогою <strong><em>алгоритму K-середніх</em></strong>, що намагається знайти центроїди(середнє арифметичне всіх об’єктів, призначених до певного кластеру.), що мінімізують сумарну квадратичну відстань між об’єктами і їхніми центроїдами.</p>
+<p>Отримавши 3 групи країн, визначемо, який кластер має високий ІРЛ, а який низький за допомогою <strong><em>алгоритму K-середніх</em></strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>kmeans.result <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(myModel_scale, <span class="dv">3</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(kmeans.result, <span class="at">data=</span> myModel_scale, <span class="at">ellipse.type =</span> <span class="st">"convex"</span>)<span class="sc">+</span></span>
@@ -336,65 +387,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="результати-аналізу" class="level2">
-<h2 class="anchored" data-anchor-id="результати-аналізу">Результати аналізу</h2>
+<section id="результати-аналізу" class="level3">
+<h3 class="anchored" data-anchor-id="результати-аналізу">Результати аналізу</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>highHDI <span class="ot">&lt;-</span> myModel[kmeans.result<span class="sc">$</span>cluster<span class="sc">==</span><span class="dv">2</span>,]</span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>highHDI <span class="ot">&lt;-</span> (myModel[kmeans.result<span class="sc">$</span>cluster<span class="sc">==</span><span class="dv">1</span>,])</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>highHDI</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 82 × 20
-   Country  Human Development In…¹ Life expectancy at b…² Expected years of sc…³
-   &lt;chr&gt;                     &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;
- 1 Argenti…                  0.842                   75.4                   17.9
- 2 Montene…                  0.832                   76.3                   15.1
- 3 Russian…                  0.822                   69.4                   15.8
- 4 Romania                   0.821                   74.2                   14.2
- 5 Oman                      0.816                   72.5                   14.6
- 6 Bahamas                   0.812                   71.6                   12.9
- 7 Kazakhs…                  0.811                   69.4                   15.8
- 8 Trinida…                  0.81                    73.0                   14.5
- 9 Costa R…                  0.809                   77.0                   16.5
-10 Uruguay                   0.809                   75.4                   16.8
-# ℹ 72 more rows
-# ℹ abbreviated names: ¹​`Human Development Index (HDI)`,
-#   ²​`Life expectancy at birth`, ³​`Expected years of schooling`
-# ℹ 16 more variables: `Mean years of schooling` &lt;dbl&gt;,
-#   `Gross national income (GNI) per capita` &lt;dbl&gt;,
-#   `GNI per capita rank minus HDI rank` &lt;dbl&gt;, `HDI rank` &lt;dbl&gt;, `1990` &lt;dbl&gt;,
-#   `2000` &lt;dbl&gt;, `2010` &lt;dbl&gt;, `2015` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;, …</code></pre>
-</div>
-</div>
-<p>У 2 кластері країни з високим ІРЛ: Швейцарія, Норвегія, Ісландія, Гонконг, Китай (САР), Австралія, Данія, Швеція, Ірландія, Німеччина, Нідерланди, Фінляндія, Сінгапур, Бельгія, Нова Зеландія, Канада, Ліхтенштейн, Люксембург, Велика Британія, Японія, Корея (Республіка), Сполучені Штати, Ізраїль, Мальта, Словенія, Австрія, Об’єднані Арабські Емірати, Іспанія, Франція, Кіпр, Італія, Естонія, Чехія, Греція, Польща, Бахрейн, Литва, Саудівська Аравія, Португалія, Латвія, Андорра, Хорватія, Чилі, Катар, Сан-Марино, Словаччина, Угорщина, Туреччина, Кувейт, Бруней-Даруссалам.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>middleHDI <span class="ot">&lt;-</span> myModel[kmeans.result<span class="sc">$</span>cluster<span class="sc">==</span><span class="dv">3</span>,]</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>middleHDI</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 60 × 20
-   Country  Human Development In…¹ Life expectancy at b…² Expected years of sc…³
-   &lt;chr&gt;                     &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;
- 1 Guyana                    0.714                   65.7                  12.5 
- 2 Botswana                  0.693                   61.1                  12.3 
- 3 Bhutan                    0.666                   71.8                  13.2 
- 4 Tuvalu                    0.641                   64.5                   9.40
- 5 India                     0.633                   67.2                  11.9 
- 6 Ghana                     0.632                   63.8                  12.0 
- 7 Guatema…                  0.627                   69.2                  10.6 
- 8 Honduras                  0.621                   70.1                  10.1 
- 9 Namibia                   0.615                   59.3                  11.9 
-10 Lao Peo…                  0.607                   68.1                  10.1 
-# ℹ 50 more rows
-# ℹ abbreviated names: ¹​`Human Development Index (HDI)`,
-#   ²​`Life expectancy at birth`, ³​`Expected years of schooling`
-# ℹ 16 more variables: `Mean years of schooling` &lt;dbl&gt;,
-#   `Gross national income (GNI) per capita` &lt;dbl&gt;,
-#   `GNI per capita rank minus HDI rank` &lt;dbl&gt;, `HDI rank` &lt;dbl&gt;, `1990` &lt;dbl&gt;,
-#   `2000` &lt;dbl&gt;, `2010` &lt;dbl&gt;, `2015` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;, …</code></pre>
-</div>
-</div>
-<p>У 3-ому кластері країни з середнім ІПРЛ: Аргентина, Чорногорія, Російська Федерація, Румунія, Оман, Багамські острови, Казахстан, Тринідад і Тобаго, Коста-Ріка, Уругвай, Білорусь, Панама, Малайзія, Грузія, Маврикій, Сербія, Таїланд, Албанія, Болгарія, Гренада, Барбадос, Антигуа і Барбуда, Сейшели, Шрі-Ланка, Боснія і Герцеговина, Сент-Кітс і Невіс, Іран (Ісламська Республіка), Україна, Північна Македонія, Китай, Домініканська Республіка, Молдова (Республіка), Палау, Куба, Перу, Вірменія, Мексика, Бразилія, Колумбія, Сент-Вінсент і Гренадини, Мальдіви, Алжир, Азербайджан, Тонга, Туркменістан, Еквадор, Монголія, Єгипет, Туніс, Фіджі, Суринам, Узбекистан, Домініка, Йорданія, Лівія, Парагвай, Палестина, держава, Сент-Люсія, Південна Африка, Ямайка, Самоа, Габон, Ліван, Індонезія, В’єтнам, Філіппіни, Болівія (Багатонаціональна Держава), Киргизстан, Венесуела (Боліваріанська Республіка), Ірак, Таджикистан, Беліз, Марокко, Сальвадор, Нікарагуа, Кабо-Верде, Бангладеш, Маршаллові острови, Мікронезія (Федеративні Штати), Кірібаті, Сан-Томе і Принсіпі, Вануату.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lowHDI <span class="ot">&lt;-</span> (myModel[kmeans.result<span class="sc">$</span>cluster<span class="sc">==</span><span class="dv">1</span>,])</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>lowHDI</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 49 × 20
    Country  Human Development In…¹ Life expectancy at b…² Expected years of sc…³
@@ -418,43 +415,70 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #   `2000` &lt;dbl&gt;, `2010` &lt;dbl&gt;, `2015` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
-<p>У 1-ому кластері країни з низьким ІПРЛ: Гайана, Ботсвана, Бутан, Тувалу, Індія, Гана, Гватемала, Гондурас, Намібія, Лаоська Народно-Демократична Республіка, Тимор-Лешті, Непал, Есватіні (Королівство), Екваторіальна Гвінея, Камбоджа, Зімбабве, Ангола, М’янма, Сирійська Арабська Республіка, Камерун, Кенія, Конго, Замбія, Соломонові острови, Коморські острови, Папуа-Нова Гвінея, Мавританія, Кот-д’Івуар, Танзанія (Об’єднана Республіка), Пакистан, Того, Гаїті, Нігерія, Руанда, Бенін, Уганда, Лесото, Малаві, Сенегал, Джибуті, Судан, Мадагаскар, Гамбія, Ефіопія, Еритрея, Гвінея-Бісау, Ліберія, Конго (Демократична Республіка), Афганістан, Сьєрра-Леоне, Гвінея, Ємен, Буркіна-Фасо, Мозамбік, Малі, Бурунді, Центральноафриканська Республіка, Нігер, Чад, Південний Судан.</p>
-<p><strong><em>Висновок:</em></strong> переглянувши результати кластерного аналізу, спостерігаємо адекватний розподіл країн між групами. Далі проведемо дослідження та перегляном різницю впливу різних факторів на країни з низьким та високим ІРЛ.</p>
+<p>У 1 кластері країни з високим ІРЛ: Швейцарія, Норвегія, Ісландія, Гонконг, Китай (САР), Австралія, Данія, Швеція, Ірландія, Німеччина, Нідерланди, Фінляндія, Сінгапур, Бельгія, Нова Зеландія, Канада, Ліхтенштейн, Люксембург, Велика Британія, Японія, Корея (Республіка), Сполучені Штати, Ізраїль, Мальта, Словенія, Австрія, Об’єднані Арабські Емірати, Іспанія, Франція, Кіпр, Італія, Естонія, Чехія, Греція, Польща, Бахрейн, Литва, Саудівська Аравія, Португалія, Латвія, Андорра, Хорватія, Чилі, Катар, Сан-Марино, Словаччина, Угорщина, Туреччина, Кувейт, Бруней-Даруссалам.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>middleHDI <span class="ot">&lt;-</span> myModel[kmeans.result<span class="sc">$</span>cluster<span class="sc">==</span><span class="dv">2</span>,]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>middleHDI</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 82 × 20
+   Country  Human Development In…¹ Life expectancy at b…² Expected years of sc…³
+   &lt;chr&gt;                     &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;
+ 1 Argenti…                  0.842                   75.4                   17.9
+ 2 Montene…                  0.832                   76.3                   15.1
+ 3 Russian…                  0.822                   69.4                   15.8
+ 4 Romania                   0.821                   74.2                   14.2
+ 5 Oman                      0.816                   72.5                   14.6
+ 6 Bahamas                   0.812                   71.6                   12.9
+ 7 Kazakhs…                  0.811                   69.4                   15.8
+ 8 Trinida…                  0.81                    73.0                   14.5
+ 9 Costa R…                  0.809                   77.0                   16.5
+10 Uruguay                   0.809                   75.4                   16.8
+# ℹ 72 more rows
+# ℹ abbreviated names: ¹​`Human Development Index (HDI)`,
+#   ²​`Life expectancy at birth`, ³​`Expected years of schooling`
+# ℹ 16 more variables: `Mean years of schooling` &lt;dbl&gt;,
+#   `Gross national income (GNI) per capita` &lt;dbl&gt;,
+#   `GNI per capita rank minus HDI rank` &lt;dbl&gt;, `HDI rank` &lt;dbl&gt;, `1990` &lt;dbl&gt;,
+#   `2000` &lt;dbl&gt;, `2010` &lt;dbl&gt;, `2015` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<p>У 2-ому кластері країни з середнім ІПРЛ: Аргентина, Чорногорія, Російська Федерація, Румунія, Оман, Багамські острови, Казахстан, Тринідад і Тобаго, Коста-Ріка, Уругвай, Білорусь, Панама, Малайзія, Грузія, Маврикій, Сербія, Таїланд, Албанія, Болгарія, Гренада, Барбадос, Антигуа і Барбуда, Сейшели, Шрі-Ланка, Боснія і Герцеговина, Сент-Кітс і Невіс, Іран (Ісламська Республіка), Україна, Північна Македонія, Китай, Домініканська Республіка, Молдова (Республіка), Палау, Куба, Перу, Вірменія, Мексика, Бразилія, Колумбія, Сент-Вінсент і Гренадини, Мальдіви, Алжир, Азербайджан, Тонга, Туркменістан, Еквадор, Монголія, Єгипет, Туніс, Фіджі, Суринам, Узбекистан, Домініка, Йорданія, Лівія, Парагвай, Палестина, держава, Сент-Люсія, Південна Африка, Ямайка, Самоа, Габон, Ліван, Індонезія, В’єтнам, Філіппіни, Болівія (Багатонаціональна Держава), Киргизстан, Венесуела (Боліваріанська Республіка), Ірак, Таджикистан, Беліз, Марокко, Сальвадор, Нікарагуа, Кабо-Верде, Бангладеш, Маршаллові острови, Мікронезія (Федеративні Штати), Кірібаті, Сан-Томе і Принсіпі, Вануату.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lowHDI <span class="ot">&lt;-</span> myModel[kmeans.result<span class="sc">$</span>cluster<span class="sc">==</span><span class="dv">3</span>,]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>lowHDI</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 60 × 20
+   Country  Human Development In…¹ Life expectancy at b…² Expected years of sc…³
+   &lt;chr&gt;                     &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;
+ 1 Guyana                    0.714                   65.7                  12.5 
+ 2 Botswana                  0.693                   61.1                  12.3 
+ 3 Bhutan                    0.666                   71.8                  13.2 
+ 4 Tuvalu                    0.641                   64.5                   9.40
+ 5 India                     0.633                   67.2                  11.9 
+ 6 Ghana                     0.632                   63.8                  12.0 
+ 7 Guatema…                  0.627                   69.2                  10.6 
+ 8 Honduras                  0.621                   70.1                  10.1 
+ 9 Namibia                   0.615                   59.3                  11.9 
+10 Lao Peo…                  0.607                   68.1                  10.1 
+# ℹ 50 more rows
+# ℹ abbreviated names: ¹​`Human Development Index (HDI)`,
+#   ²​`Life expectancy at birth`, ³​`Expected years of schooling`
+# ℹ 16 more variables: `Mean years of schooling` &lt;dbl&gt;,
+#   `Gross national income (GNI) per capita` &lt;dbl&gt;,
+#   `GNI per capita rank minus HDI rank` &lt;dbl&gt;, `HDI rank` &lt;dbl&gt;, `1990` &lt;dbl&gt;,
+#   `2000` &lt;dbl&gt;, `2010` &lt;dbl&gt;, `2015` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<p>У 3-ому кластері країни з низьким ІПРЛ: Гайана, Ботсвана, Бутан, Тувалу, Індія, Гана, Гватемала, Гондурас, Намібія, Лаоська Народно-Демократична Республіка, Тимор-Лешті, Непал, Есватіні (Королівство), Екваторіальна Гвінея, Камбоджа, Зімбабве, Ангола, М’янма, Сирійська Арабська Республіка, Камерун, Кенія, Конго, Замбія, Соломонові острови, Коморські острови, Папуа-Нова Гвінея, Мавританія, Кот-д’Івуар, Танзанія (Об’єднана Республіка), Пакистан, Того, Гаїті, Нігерія, Руанда, Бенін, Уганда, Лесото, Малаві, Сенегал, Джибуті, Судан, Мадагаскар, Гамбія, Ефіопія, Еритрея, Гвінея-Бісау, Ліберія, Конго (Демократична Республіка), Афганістан, Сьєрра-Леоне, Гвінея, Ємен, Буркіна-Фасо, Мозамбік, Малі, Бурунді, Центральноафриканська Республіка, Нігер, Чад, Південний Судан.</p>
+<p><strong><em>Висновок:</em></strong> переглянувши результати кластерного аналізу, спостерігаємо адекватний розподіл країн між групами. Далі проведемо дослідження та перегляном різницю впливу різних факторів на країни з низьким, середнім та високим ІРЛ.</p>
 </section>
 </section>
-<section id="побудова-млр-за-мнк" class="level1">
-<h1>Побудова МЛР за МНК</h1>
-<p><strong><em>Метод найменших квадратів</em></strong>— статистичний методом, який використовується для оцінювання параметрів математичної моделі шляхом мінімізації суми квадратів розбіжностей між спостережуваними значеннями і передбаченими значеннями моделі.</p>
-<p>Рівняння прямої виглядає наступним чином:</p>
-<p><span class="math display">\[
-y_i= \beta_0 + \beta_1x_1 + \beta_2x_2 + ...+ \beta_nx_m+ \beta_{n+1}x_{m+1}+ u_i
-\]</span> Це рівняння називається множинною лінійною регресією.</p>
-<p>Розглянемо складові рівняння:</p>
-<ul>
-<li><p><span class="math inline">\(y\)</span>: залежна змінна.</p></li>
-<li><p><span class="math inline">\(\beta_0\)</span>: вільний параметр моделі, який відповідає за точку перетину прямої з вістю ординат.</p></li>
-<li><p><span class="math inline">\(\beta_{1,2,...,n,n+1}\)</span>: залежні параметри моделі, який відповідає за кут нахилу прямої.</p></li>
-<li><p><span class="math inline">\(x_{1,2,...,m,m+1}\)</span>: незалежні змінні.</p></li>
-<li><p><span class="math inline">\(u\)</span>: залишки моделі.</p></li>
-</ul>
-<p>Але у нашому розпорядженні є тільки певна вибірка даних і провести ідеальну пряму через всі точки неможливо. Тому необхідно розрахувати оцінки параметрів моделі, які будуть задовільняти нас:</p>
-<p><span class="math display">\[
-y_i= \hat{\beta}_0 + \beta_1x_1 + \hat{\beta}_2x_2 + ...+ \hat{\beta}_nx_m+ \hat{\beta}_{n+1}x_{m+1}+ u_i
-\]</span> Оцінки параметрів моделі <span class="math inline">\(\hat{\beta_0}\)</span> та <span class="math inline">\(\hat{\beta_{1,2,...,n,n+1}\)</span> будуть дорівнювати:</p>
-<p><span class="math display">\[
-\left\{\begin{matrix}
-\hat{\beta_0} = \overline{y} - \hat{\beta_1}\overline{x} &amp; \\
-\hat{\beta}_{1,2,...,n,n+1} = \frac{\sum\limits^{n}_{i=1,2,...,m,m+1}(x_i - \overline{x})(y_i -    \overline{y})}{\sum\limits^{n}_{i=1}(x_i - \overline{x})^2} =  \frac{\overline{xy} - \overline{x}\overline{y}}{\overline{x^2} -   \overline{x}^2}
-\end{matrix}\right.
-\]</span> Проте мова програмування R надає нам чудову функцію <strong><em><code>lm()</code></em></strong>, яка дозваляє уникнути створення моделі за МНК по кроково, а функція <strong><em><code>summary()</code></em></strong> виводить додаткову інформаю про модель, у тому числі оцінку коефіцієнтів.</p>
-<p><strong><em>t-критерій</em></strong>— тест, який використовується у статистиці для перевірки гіпотез про значимість різниці між середніми значеннями двох груп. T-критерій базується на розподілі Стьюдента, що залежить від ступенів свободи (degrees of freedom) і рівня значимості.</p>
-<p><strong><em>F-критерій</em></strong>— це статистичний критерій, що використовується для порівняння дисперсії між двома або більше вибірками. В контексті лінійної регресії F-критерій використовується для оцінки важливості регресійної моделі в цілому.</p>
-<p><strong><em>p-значення</em></strong>— це ймовірність отримати спостережуване значення статистики, якщо нульова гіпотеза є правильною.</p>
-<p><strong><em>Коефіцієнт детермінації</em></strong> — коефіцієнт, що вказує на частину варіації залежної змінної , що пояснюється регресійною моделлю. Лежить в діапазоні від 0 до 1. Значення 0 означає, що регресійна модель не може пояснити жодну варіацію залежної змінної, тоді як значення 1 вказує, що модель повністю пояснює варіацію залежної змінної.</p>
-<p><strong><em>Довірчі інтервали</em></strong>— це інтервал значень, що містить обраний параметр з ймовірністю 97.5% на рівні значущості 0.05.</p>
-<section id="побудова-моделі-країн-з-високим-ілр" class="level2">
-<h2 class="anchored" data-anchor-id="побудова-моделі-країн-з-високим-ілр">Побудова моделі країн з високим ІЛР</h2>
-<p>Використовуємо ІЛР як залежну змінну, а як незалежні: середня тривалість життя; середня очікувана тривалість навчання в країні на момент народження; середня кількість років навчання, отримана людьми; річний дохід на душу населення.</p>
+<section id="регресійний-аналіз" class="level2">
+<h2 class="anchored" data-anchor-id="регресійний-аналіз">Регресійний аналіз</h2>
+<p>Далі розглянемо вплив різних факторів на ІРЛ у країнах з низьким та високим його рівнем. Для побудови моделі лінійної регресії у середовищі R скористаємось функцією <strong><em><code>lm()</code></em></strong>, яка оцінює параметри МЛР, а функція <strong><em><code>summary()</code></em></strong> виводить додаткову інформацію про модель, зокрема, про значущість параметрів моделі та їхні стандартні похибки.</p>
+<section id="побудова-моделі-країн-з-високим-ілр" class="level3">
+<h3 class="anchored" data-anchor-id="побудова-моделі-країн-з-високим-ілр">Побудова моделі країн з високим ІЛР</h3>
+<p>Використовуємо ІЛР як залежну змінну, а як незалежні: середня тривалість життя; середня очікувана тривалість навчання в країні; середня кількість років навчання; річний дохід на душу населення та місце країни у рейтингу за 2020 рік.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>highHDI_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span>, <span class="at">data =</span> highHDI) </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(highHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -464,159 +488,6 @@ Call:
 lm(formula = `Human Development Index (HDI)` ~ `Life expectancy at birth` + 
     `Expected years of schooling` + `Mean years of schooling` + 
     `Gross national income (GNI) per capita` + `HDI rank`, data = highHDI)
-
-Residuals:
-       Min         1Q     Median         3Q        Max 
--0.0274768 -0.0044989  0.0007041  0.0049578  0.0166004 
-
-Coefficients:
-                                           Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)                               3.601e-01  7.608e-02   4.733 1.00e-05
-`Life expectancy at birth`                3.415e-03  4.781e-04   7.143 4.72e-10
-`Expected years of schooling`             7.516e-03  1.208e-03   6.220 2.48e-08
-`Mean years of schooling`                 7.478e-03  1.128e-03   6.631 4.31e-09
-`Gross national income (GNI) per capita`  2.299e-06  3.740e-07   6.147 3.38e-08
-`HDI rank`                               -7.942e-04  1.843e-04  -4.309 4.85e-05
-                                            
-(Intercept)                              ***
-`Life expectancy at birth`               ***
-`Expected years of schooling`            ***
-`Mean years of schooling`                ***
-`Gross national income (GNI) per capita` ***
-`HDI rank`                               ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 0.007809 on 76 degrees of freedom
-Multiple R-squared:  0.9808,    Adjusted R-squared:  0.9796 
-F-statistic: 777.5 on 5 and 76 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
-</div>
-<section id="оцінка-ефективності-моделі" class="level3">
-<h3 class="anchored" data-anchor-id="оцінка-ефективності-моделі">Оцінка ефективності моделі</h3>
-<ol type="1">
-<li><strong><em>t-критерій:</em></strong> Для початку застосовуємо функцію <strong><em><code>qt()</code></em></strong>, що повертає критичне значення (квантиль) t-розподілу.</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(<span class="fu">qt</span>(<span class="fl">0.01</span>, <span class="dv">76</span>))</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.37642</code></pre>
-</div>
-</div>
-<p>Робимо висновок, що усі коефіцієнти мають значення t-критерію, модуль яких більший за 2.37642, що дозволяє прийняти гіпотезу про значущість змінних;</p>
-<ol start="2" type="1">
-<li><p><strong><em>F-критерій:</em></strong> значення досить високе (777.5), що підтверджує наявність статистично значущого взаємозв’язку між змінними;</p></li>
-<li><p><strong><em>p-значення:</em></strong> значення дуже мале, що свідчить про наявність статистично значущого взаємозв’язку між факторами в моделі;</p></li>
-<li><p><strong><em>Коефіцієнт детермінації:</em></strong> 98%(0.9808), а скоригований коефіцієнт детермінації: 98%(0.9796), що свідчить про майже ідеальну</p></li>
-<li><p><strong><em>Довірчі інтервали:</em></strong></p></li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(highHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                                                 2.5 %        97.5 %
-(Intercept)                               2.085372e-01  5.115764e-01
-`Life expectancy at birth`                2.462705e-03  4.367148e-03
-`Expected years of schooling`             5.109428e-03  9.922421e-03
-`Mean years of schooling`                 5.232002e-03  9.723957e-03
-`Gross national income (GNI) per capita`  1.553830e-06  3.043439e-06
-`HDI rank`                               -1.161312e-03 -4.271346e-04</code></pre>
-</div>
-</div>
-<p>На основі наданих довірчих інтервалів, можна стверджувати, що всі вказані коефіцієнти регресії є статистично значущими, оскільки їхні довірчі інтервали не включають нуль</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> highHDI, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span>, <span class="at">y =</span> <span class="fu">predict</span>(highHDI_lm))) <span class="sc">+</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">20</span>, <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">size=</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Фактичні значення HDI"</span>, <span class="at">y =</span> <span class="st">"Прогнозовані значення HDI"</span>, </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Діаграма розсіювання для моделі МЛР"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="перевірка-впливу-статі-на-модель" class="level3">
-<h3 class="anchored" data-anchor-id="перевірка-впливу-статі-на-модель">Перевірка впливу статі на модель</h3>
-<p>Додаємо до моделі змінні: участь жінки у роботі, смертність від народження дитини, кількість зайнятих місць жінками у парламенті.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>highHDI_lm_female <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Female labour force participation rate</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Share of seats in parliament</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Maternal mortality ratio</span><span class="st">`</span>, <span class="at">data =</span> highHDI) </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(highHDI_lm_female)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = `Human Development Index (HDI)` ~ `Life expectancy at birth` + 
-    `Expected years of schooling` + `Mean years of schooling` + 
-    `Gross national income (GNI) per capita` + `HDI rank` + `Female labour force participation rate` + 
-    `Share of seats in parliament` + `Maternal mortality ratio`, 
-    data = highHDI)
-
-Residuals:
-      Min        1Q    Median        3Q       Max 
--0.021074 -0.003719  0.001194  0.004650  0.017719 
-
-Coefficients:
-                                           Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)                               3.442e-01  7.564e-02   4.551 2.09e-05
-`Life expectancy at birth`                3.559e-03  4.906e-04   7.253 3.53e-10
-`Expected years of schooling`             7.476e-03  1.203e-03   6.214 2.88e-08
-`Mean years of schooling`                 7.752e-03  1.126e-03   6.887 1.69e-09
-`Gross national income (GNI) per capita`  2.374e-06  3.682e-07   6.446 1.09e-08
-`HDI rank`                               -7.776e-04  1.805e-04  -4.307 5.07e-05
-`Female labour force participation rate` -1.011e-04  6.828e-05  -1.480   0.1432
-`Share of seats in parliament`            1.737e-04  7.467e-05   2.326   0.0228
-`Maternal mortality ratio`                1.820e-05  2.454e-05   0.741   0.4608
-                                            
-(Intercept)                              ***
-`Life expectancy at birth`               ***
-`Expected years of schooling`            ***
-`Mean years of schooling`                ***
-`Gross national income (GNI) per capita` ***
-`HDI rank`                               ***
-`Female labour force participation rate`    
-`Share of seats in parliament`           *  
-`Maternal mortality ratio`                  
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 0.007628 on 73 degrees of freedom
-Multiple R-squared:  0.9824,    Adjusted R-squared:  0.9805 
-F-statistic: 510.1 on 8 and 73 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
-</div>
-<p>Згідно статистичним показникам низький t-критерій та високе p-значення свідчить про статистичну незначущість факторів: участь жінки у роботі, смертність від народження дитини.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(highHDI_lm_female) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                                                 2.5 %        97.5 %
-(Intercept)                               1.934444e-01  4.949311e-01
-`Life expectancy at birth`                2.580829e-03  4.536506e-03
-`Expected years of schooling`             5.078403e-03  9.874255e-03
-`Mean years of schooling`                 5.508733e-03  9.995383e-03
-`Gross national income (GNI) per capita`  1.639735e-06  3.107543e-06
-`HDI rank`                               -1.137470e-03 -4.178225e-04
-`Female labour force participation rate` -2.371398e-04  3.503594e-05
-`Share of seats in parliament`            2.487205e-05  3.224955e-04
-`Maternal mortality ratio`               -3.071233e-05  6.710246e-05</code></pre>
-</div>
-</div>
-<p>На основі довірчих інтервалів, можна стверджувати, що всі вказані коефіцієнти регресії, окрім кількості місць у парламенті, статистично не значущі, оскільки їхні довірчі інтервали включають нуль</p>
-<p><strong><em>Висновок:</em></strong> згідно з отриманими результатами, фактори: участь жінки у роботі, смертність від народження дитини — статистично незначущі та немають впливу на індекс людського розвитку. А кількість місць зайнятих жінками у парламенті позитивно впливає на ІПРЛ у країн з високим ІРЛ.</p>
-</section>
-</section>
-<section id="побудова-моделі-країн-з-низьким-ілр" class="level2">
-<h2 class="anchored" data-anchor-id="побудова-моделі-країн-з-низьким-ілр">Побудова моделі країн з низьким ІЛР</h2>
-<p>Використовуємо для моделі ІЛР як залежну змінну, а як незалежні: середню тривалість життя; середня очікувана тривалість навчання в країні на момент народження; середня кількість років навчання, отримана людьми; річний дохід на душу населення та місце згідно ІРЛ минулого року</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>lowHDI_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span>, <span class="at">data =</span> lowHDI) </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lowHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = `Human Development Index (HDI)` ~ `Life expectancy at birth` + 
-    `Expected years of schooling` + `Mean years of schooling` + 
-    `Gross national income (GNI) per capita` + `HDI rank`, data = lowHDI)
 
 Residuals:
        Min         1Q     Median         3Q        Max 
@@ -645,22 +516,26 @@ Multiple R-squared:  0.9858,    Adjusted R-squared:  0.9842
 F-statistic: 598.7 on 5 and 43 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
-<p>Одразу видно різницю між групами країн з високим та низьким ІРЛ, але для початку перевіримо ефективність моделі ### Оцінка ефективності моделі 1) <strong><em>t-критерій:</em></strong> критичне значення (квантиль) t-розподілу:</p>
+<section id="оцінка-ефективності-моделі" class="level4">
+<h4 class="anchored" data-anchor-id="оцінка-ефективності-моделі">Оцінка ефективності моделі</h4>
+<ol type="1">
+<li><strong><em>t-критерій:</em></strong> Для початку застосовуємо функцію <strong><em><code>qt()</code></em></strong>, що повертає критичне значення (квантиль) t-розподілу.</li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(<span class="fu">qt</span>(<span class="fl">0.005</span>, <span class="dv">43</span>))</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(<span class="fu">qt</span>(<span class="fl">0.005</span>, <span class="dv">43</span>))</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.695102</code></pre>
 </div>
 </div>
-<p>Робимо висновок, що коефіцієнти середньої очікуваної тривалості навчання в країні на момент народження та річний дохід на душу населення мають значення t-критерію, модуль яких менший за 2.695102, що відхиляє гіпотезу про значущість змінних;</p>
+<p>Робимо висновок, що усі коефіцієнти, окрім середньої очікуваної тривалості навчання в країні та дохід на душу населення, мають значення t-критерію, модуль яких більший за 2.6951, що дозволяє прийняти гіпотезу про значущість параметрів;</p>
 <ol start="2" type="1">
-<li><p><strong><em>F-критерій:</em></strong> значення зменшилось відповідно до моделі з країнами з високим ІПРЛ (598);</p></li>
-<li><p><strong><em>p-значення:</em></strong> у 3-ох змінних(середня очікувана тривалість навчання в країні на момент народження; середня кількість років навчання, отримана людьми; річний дохід на душу населення) p-значення доволі високі, що вкотре доводить їх статистичну незначущість;</p></li>
-<li><p><strong><em>Коефіцієнт детермінації:</em></strong> 98%(0.9858), а скоригований коефіцієнт детермінації: 98%(0.9842)</p></li>
+<li><p><strong><em>F-критерій:</em></strong> значення досить високе 598.7, що підтверджує загальну адекватність моделі;</p></li>
+<li><p><strong><em>p-значення:</em></strong> у більшості змінних значення дуже мале, що свідчить про наявність статистично значущого взаємозв’язку між факторами в моделі, але у факторі дохід на душу населення p-значення доволі високий, що вкотре доводить її статистичну незначущість;</p></li>
+<li><p><strong><em>Коефіцієнт детермінації:</em></strong> 98%(0.9858), а скоригований коефіцієнт детермінації: 98%(0.9842), що свідчить про високу адекватність моделі.</p></li>
 <li><p><strong><em>Довірчі інтервали:</em></strong></p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lowHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(highHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                 2.5 %        97.5 %
 (Intercept)                               5.234959e-01  7.541837e-01
@@ -671,26 +546,14 @@ F-statistic: 598.7 on 5 and 43 DF,  p-value: &lt; 2.2e-16</code></pre>
 `HDI rank`                               -2.139608e-03 -1.373282e-03</code></pre>
 </div>
 </div>
-<p>На основі наданих довірчих інтервалів, можна стверджувати, що <code>Gross national income (GNI) per capita</code> є статистично незначущими, оскільки його довірчий інтервал включає нуль</p>
+<p>На основі наданих довірчих інтервалів, можна стверджувати, що всі вказані коефіцієнти регресії, окрім річного доходу на душу населення, є статистично значущими, оскільки їх довірчі інтервали не включають нуль.</p>
+</section>
+<section id="перевірка-впливу-статі-на-модель" class="level4">
+<h4 class="anchored" data-anchor-id="перевірка-впливу-статі-на-модель">Перевірка впливу статі на модель</h4>
+<p>Додаємо до моделі змінні: робоча зайнятість жінки, смертність від народження дитини, кількість зайнятих місць жінками у парламенті.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> lowHDI, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span>, <span class="at">y =</span> <span class="fu">predict</span>(lowHDI_lm))) <span class="sc">+</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">20</span>, <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">size=</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Фактичні значення HDI"</span>, <span class="at">y =</span> <span class="st">"Прогнозовані значення HDI"</span>, </span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Діаграма розсіювання для моделі МЛР"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<section id="перевірка-впливу-статі-на-модель-1" class="level3">
-<h3 class="anchored" data-anchor-id="перевірка-впливу-статі-на-модель-1">Перевірка впливу статі на модель</h3>
-<p>Додаємо до моделі змінні: участь жінки у роботі, смертність від народження дитини, кількість зайнятих місць жінками у парламенті.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lowHDI_lm_female <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Female labour force participation rate</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Share of seats in parliament</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Maternal mortality ratio</span><span class="st">`</span>, <span class="at">data =</span> lowHDI) </span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lowHDI_lm_female)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>highHDI_lm_female <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Female labour force participation rate</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Share of seats in parliament</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Maternal mortality ratio</span><span class="st">`</span>, <span class="at">data =</span> highHDI) </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(highHDI_lm_female)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -698,7 +561,7 @@ lm(formula = `Human Development Index (HDI)` ~ `Life expectancy at birth` +
     `Expected years of schooling` + `Mean years of schooling` + 
     `Gross national income (GNI) per capita` + `HDI rank` + `Female labour force participation rate` + 
     `Share of seats in parliament` + `Maternal mortality ratio`, 
-    data = lowHDI)
+    data = highHDI)
 
 Residuals:
        Min         1Q     Median         3Q        Max 
@@ -733,9 +596,149 @@ Multiple R-squared:  0.9874,    Adjusted R-squared:  0.9848
 F-statistic: 390.8 on 8 and 40 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
-<p>Згідно статистичним показникам низький t-критерій та високе p-значення свідчить про статистичну незначущість факторів: кількість зайнятих місць жінками у парламенті, смертність від народження дитини.</p>
+<p>Згідно статистичним показникам низький t-критерій та високе p-значення свідчить про статистичну незначущість факторів кількість зайнятих місць жінками у парламенті, смертність від народження дитини.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(highHDI_lm_female) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(highHDI_lm_female) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                 2.5 %        97.5 %
+(Intercept)                               5.191926e-01  7.647809e-01
+`Life expectancy at birth`                1.987165e-03  3.819817e-03
+`Expected years of schooling`             1.064757e-04  3.029384e-03
+`Mean years of schooling`                 2.363148e-03  6.768307e-03
+`Gross national income (GNI) per capita`  3.989548e-09  2.322048e-07
+`HDI rank`                               -2.205303e-03 -1.424123e-03
+`Female labour force participation rate` -5.453474e-04 -1.290239e-05
+`Share of seats in parliament`           -1.212192e-04  1.691201e-04
+`Maternal mortality ratio`               -2.305088e-04  4.487014e-04</code></pre>
+</div>
+</div>
+<p>На основі довірчих інтервалів, можна стверджувати, що всі нові вказані коефіцієнти регресії, окрім робочої зайнятості жінки, статистично не значущі, оскільки їхні довірчі інтервали включають нуль.</p>
+<p><strong><em>Висновок:</em></strong> згідно з отриманими результатами, фактори: кількість місць зайнятих жінками у парламенті, смертність від народження дитини — статистично незначущі та не мають впливу на індекс людського розвитку. А робоча зайнятість жінки позитивно впливає на ІПРЛ у країн з високим ІРЛ.</p>
+</section>
+</section>
+<section id="побудова-моделі-країн-з-стандартнимсереднім-ілр" class="level3">
+<h3 class="anchored" data-anchor-id="побудова-моделі-країн-з-стандартнимсереднім-ілр">Побудова моделі країн з стандартним(середнім) ІЛР</h3>
+<p>Використовуємо ІЛР як залежну змінну, а як незалежні: середня тривалість життя; середня очікувана тривалість навчання в країні; середня кількість років навчання; річний дохід на душу населення та місце країни у рейтингу за 2020 рік.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>middleHDI_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span>, <span class="at">data =</span> middleHDI) </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(middleHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = `Human Development Index (HDI)` ~ `Life expectancy at birth` + 
+    `Expected years of schooling` + `Mean years of schooling` + 
+    `Gross national income (GNI) per capita` + `HDI rank`, data = middleHDI)
+
+Residuals:
+       Min         1Q     Median         3Q        Max 
+-0.0274768 -0.0044989  0.0007041  0.0049578  0.0166004 
+
+Coefficients:
+                                           Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                               3.601e-01  7.608e-02   4.733 1.00e-05
+`Life expectancy at birth`                3.415e-03  4.781e-04   7.143 4.72e-10
+`Expected years of schooling`             7.516e-03  1.208e-03   6.220 2.48e-08
+`Mean years of schooling`                 7.478e-03  1.128e-03   6.631 4.31e-09
+`Gross national income (GNI) per capita`  2.299e-06  3.740e-07   6.147 3.38e-08
+`HDI rank`                               -7.942e-04  1.843e-04  -4.309 4.85e-05
+                                            
+(Intercept)                              ***
+`Life expectancy at birth`               ***
+`Expected years of schooling`            ***
+`Mean years of schooling`                ***
+`Gross national income (GNI) per capita` ***
+`HDI rank`                               ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.007809 on 76 degrees of freedom
+Multiple R-squared:  0.9808,    Adjusted R-squared:  0.9796 
+F-statistic: 777.5 on 5 and 76 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<section id="оцінка-ефективності-моделі-1" class="level4">
+<h4 class="anchored" data-anchor-id="оцінка-ефективності-моделі-1">Оцінка ефективності моделі</h4>
+<ol type="1">
+<li><strong><em>t-критерій:</em></strong> Для початку застосовуємо функцію <strong><em><code>qt()</code></em></strong>, що повертає критичне значення (квантиль) t-розподілу.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(<span class="fu">qt</span>(<span class="fl">0.008</span>, <span class="dv">76</span>))</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.463989</code></pre>
+</div>
+</div>
+<p>Робимо висновок, що усі коефіцієнти мають значення t-критерію, модуль яких більший за 2.463989, що дозволяє прийняти гіпотезу про значущість параметрів;</p>
+<ol start="2" type="1">
+<li><p><strong><em>F-критерій:</em></strong> значення досить високе 777.5, що підтверджує загальну адекватність моделі;</p></li>
+<li><p><strong><em>p-значення:</em></strong> у всіх змінних значення дуже мале, що свідчить про наявність статистично значущого взаємозв’язку між факторами в моделі;</p></li>
+<li><p><strong><em>Коефіцієнт детермінації:</em></strong> 98%(0.9808), а скоригований коефіцієнт детермінації: 98%(0.9796), що свідчить про високу адекватність моделі.</p></li>
+<li><p><strong><em>Довірчі інтервали:</em></strong></p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(highHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                 2.5 %        97.5 %
+(Intercept)                               5.234959e-01  7.541837e-01
+`Life expectancy at birth`                1.944040e-03  3.634975e-03
+`Expected years of schooling`             3.297098e-04  3.246712e-03
+`Mean years of schooling`                 1.957201e-03  6.238376e-03
+`Gross national income (GNI) per capita` -7.000949e-09  2.236467e-07
+`HDI rank`                               -2.139608e-03 -1.373282e-03</code></pre>
+</div>
+</div>
+<p>На основі наданих довірчих інтервалів, можна стверджувати, що всі вказані коефіцієнти регресії, окрім річного доходу на душу населення, є статистично значущими, оскільки їх довірчі інтервали не включають нуль.</p>
+</section>
+<section id="перевірка-впливу-статі-на-модель-1" class="level4">
+<h4 class="anchored" data-anchor-id="перевірка-впливу-статі-на-модель-1">Перевірка впливу статі на модель</h4>
+<p>Додаємо до моделі змінні: робоча зайнятість жінки, смертність від народження дитини, кількість зайнятих місць жінками у парламенті.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>middleHDI_lm_female <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Female labour force participation rate</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Share of seats in parliament</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Maternal mortality ratio</span><span class="st">`</span>, <span class="at">data =</span> middleHDI) </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(middleHDI_lm_female)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = `Human Development Index (HDI)` ~ `Life expectancy at birth` + 
+    `Expected years of schooling` + `Mean years of schooling` + 
+    `Gross national income (GNI) per capita` + `HDI rank` + `Female labour force participation rate` + 
+    `Share of seats in parliament` + `Maternal mortality ratio`, 
+    data = middleHDI)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.021074 -0.003719  0.001194  0.004650  0.017719 
+
+Coefficients:
+                                           Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                               3.442e-01  7.564e-02   4.551 2.09e-05
+`Life expectancy at birth`                3.559e-03  4.906e-04   7.253 3.53e-10
+`Expected years of schooling`             7.476e-03  1.203e-03   6.214 2.88e-08
+`Mean years of schooling`                 7.752e-03  1.126e-03   6.887 1.69e-09
+`Gross national income (GNI) per capita`  2.374e-06  3.682e-07   6.446 1.09e-08
+`HDI rank`                               -7.776e-04  1.805e-04  -4.307 5.07e-05
+`Female labour force participation rate` -1.011e-04  6.828e-05  -1.480   0.1432
+`Share of seats in parliament`            1.737e-04  7.467e-05   2.326   0.0228
+`Maternal mortality ratio`                1.820e-05  2.454e-05   0.741   0.4608
+                                            
+(Intercept)                              ***
+`Life expectancy at birth`               ***
+`Expected years of schooling`            ***
+`Mean years of schooling`                ***
+`Gross national income (GNI) per capita` ***
+`HDI rank`                               ***
+`Female labour force participation rate`    
+`Share of seats in parliament`           *  
+`Maternal mortality ratio`                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.007628 on 73 degrees of freedom
+Multiple R-squared:  0.9824,    Adjusted R-squared:  0.9805 
+F-statistic: 510.1 on 8 and 73 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Згідно статистичним показникам низький t-критерій та високе p-значення свідчить про статистичну незначущість факторів: оцінка робочої зайнятості жінки, смертність від народження дитини.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(middleHDI_lm_female) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                 2.5 %        97.5 %
 (Intercept)                               1.934444e-01  4.949311e-01
@@ -749,23 +752,164 @@ F-statistic: 390.8 on 8 and 40 DF,  p-value: &lt; 2.2e-16</code></pre>
 `Maternal mortality ratio`               -3.071233e-05  6.710246e-05</code></pre>
 </div>
 </div>
+<p>На основі довірчих інтервалів, можна стверджувати, що всі нові вказані коефіцієнти регресії, окрім кількість зайнятих місць жінками у парламенті, статистично не значущі, оскільки їхні довірчі інтервали включають нуль.</p>
+<p><strong><em>Висновок:</em></strong> згідно з отриманими результатами, фактори: оцінка робочої зайнятості жінки, смертність від народження дитини — статистично незначущі та не мають впливу на індекс людського розвитку. А кількість зайнятих місць жінками у парламенті позитивно впливає на ІПРЛ у країн з стандартним ІРЛ.</p>
+</section>
+</section>
+<section id="побудова-моделі-країн-з-низьким-ілр" class="level3">
+<h3 class="anchored" data-anchor-id="побудова-моделі-країн-з-низьким-ілр">Побудова моделі країн з низьким ІЛР</h3>
+<p>Використовуємо ІЛР як залежну змінну, а як незалежні: середня тривалість життя; середня очікувана тривалість навчання в країні; середня кількість років навчання; річний дохід на душу населення та місце країни у рейтингу за 2020 рік.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lowHDI_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span>, <span class="at">data =</span> lowHDI) </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lowHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = `Human Development Index (HDI)` ~ `Life expectancy at birth` + 
+    `Expected years of schooling` + `Mean years of schooling` + 
+    `Gross national income (GNI) per capita` + `HDI rank`, data = lowHDI)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.026998 -0.006168  0.001357  0.006180  0.021540 
+
+Coefficients:
+                                           Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                               7.929e-01  9.587e-02   8.271 3.62e-11
+`Life expectancy at birth`                2.134e-03  5.127e-04   4.163 0.000114
+`Expected years of schooling`             4.541e-03  1.360e-03   3.338 0.001533
+`Mean years of schooling`                 3.339e-03  1.592e-03   2.098 0.040583
+`Gross national income (GNI) per capita`  5.082e-07  8.832e-07   0.575 0.567429
+`HDI rank`                               -2.842e-03  3.077e-04  -9.237 1.05e-12
+                                            
+(Intercept)                              ***
+`Life expectancy at birth`               ***
+`Expected years of schooling`            ** 
+`Mean years of schooling`                *  
+`Gross national income (GNI) per capita`    
+`HDI rank`                               ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.01127 on 54 degrees of freedom
+Multiple R-squared:  0.9787,    Adjusted R-squared:  0.9767 
+F-statistic: 496.4 on 5 and 54 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Одразу видно різницю між групами країн з високим та низьким ІРЛ, але для початку перевіримо ефективність моделі</p>
+<section id="оцінка-ефективності-моделі-2" class="level4">
+<h4 class="anchored" data-anchor-id="оцінка-ефективності-моделі-2">Оцінка ефективності моделі</h4>
+<ol type="1">
+<li><strong><em>t-критерій:</em></strong> критичне значення (квантиль) t-розподілу:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(<span class="fu">qt</span>(<span class="fl">0.01</span>, <span class="dv">54</span>))</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.39741</code></pre>
+</div>
+</div>
+<p>Робимо висновок, що коефіцієнти: середня тривалість навчання та річний дохід на душу населення мають значення t-критерію, модуль яких менший за 2.39741, що відхиляє гіпотезу про значущість змінних.</p>
+<ol start="2" type="1">
+<li><p><strong><em>F-критерій:</em></strong> значення зменшилось відповідно до моделі з країнами з високим ІПРЛ 496;</p></li>
+<li><p><strong><em>p-значення:</em></strong> у змінної дохід на душу населення p-значення доволі високий, що вкотре доводить його статистичну незначущість;</p></li>
+<li><p><strong><em>Коефіцієнт детермінації:</em></strong> 98% (0.9787), а скоригований коефіцієнт детермінації: 98% (0.9767);</p></li>
+<li><p><strong><em>Довірчі інтервали:</em></strong></p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lowHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                 2.5 %        97.5 %
+(Intercept)                               6.006911e-01  9.850969e-01
+`Life expectancy at birth`                1.106312e-03  3.162167e-03
+`Expected years of schooling`             1.813797e-03  7.268974e-03
+`Mean years of schooling`                 1.484976e-04  6.530295e-03
+`Gross national income (GNI) per capita` -1.262532e-06  2.278865e-06
+`HDI rank`                               -3.459439e-03 -2.225476e-03</code></pre>
+</div>
+</div>
+<p>На основі наданих довірчих інтервалів, можна стверджувати, що <code>Gross national income (GNI) per capita</code> є статистично незначущими, оскільки його довірчий інтервал включає нуль</p>
+</section>
+<section id="перевірка-впливу-статі-на-модель-2" class="level4">
+<h4 class="anchored" data-anchor-id="перевірка-впливу-статі-на-модель-2">Перевірка впливу статі на модель</h4>
+<p>Додаємо до моделі змінні: участь жінки у роботі, смертність від народження дитини, кількість зайнятих місць жінками у парламенті.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>lowHDI_lm_female <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">~</span> <span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Female labour force participation rate</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Share of seats in parliament</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Maternal mortality ratio</span><span class="st">`</span>, <span class="at">data =</span> lowHDI) </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lowHDI_lm_female)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = `Human Development Index (HDI)` ~ `Life expectancy at birth` + 
+    `Expected years of schooling` + `Mean years of schooling` + 
+    `Gross national income (GNI) per capita` + `HDI rank` + `Female labour force participation rate` + 
+    `Share of seats in parliament` + `Maternal mortality ratio`, 
+    data = lowHDI)
+
+Residuals:
+       Min         1Q     Median         3Q        Max 
+-0.0247263 -0.0053028  0.0008743  0.0080352  0.0213668 
+
+Coefficients:
+                                           Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                               7.766e-01  9.942e-02   7.811 2.87e-10
+`Life expectancy at birth`                2.139e-03  5.907e-04   3.621 0.000675
+`Expected years of schooling`             5.131e-03  1.480e-03   3.468 0.001075
+`Mean years of schooling`                 3.596e-03  1.686e-03   2.132 0.037819
+`Gross national income (GNI) per capita`  6.224e-07  8.846e-07   0.704 0.484896
+`HDI rank`                               -2.738e-03  3.199e-04  -8.558 1.97e-11
+`Female labour force participation rate` -7.342e-05  9.015e-05  -0.814 0.419218
+`Share of seats in parliament`           -1.597e-04  1.343e-04  -1.189 0.240020
+`Maternal mortality ratio`               -2.954e-06  9.106e-06  -0.324 0.746974
+                                            
+(Intercept)                              ***
+`Life expectancy at birth`               ***
+`Expected years of schooling`            ** 
+`Mean years of schooling`                *  
+`Gross national income (GNI) per capita`    
+`HDI rank`                               ***
+`Female labour force participation rate`    
+`Share of seats in parliament`              
+`Maternal mortality ratio`                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.01124 on 51 degrees of freedom
+Multiple R-squared:   0.98, Adjusted R-squared:  0.9769 
+F-statistic: 312.4 on 8 and 51 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Згідно статистичним показникам низький t-критерій та високе p-значення свідчить про статистичну незначущість факторів: кількість зайнятих місць жінками у парламенті, смертність від народження дитини.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(highHDI_lm_female) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                 2.5 %        97.5 %
+(Intercept)                               5.191926e-01  7.647809e-01
+`Life expectancy at birth`                1.987165e-03  3.819817e-03
+`Expected years of schooling`             1.064757e-04  3.029384e-03
+`Mean years of schooling`                 2.363148e-03  6.768307e-03
+`Gross national income (GNI) per capita`  3.989548e-09  2.322048e-07
+`HDI rank`                               -2.205303e-03 -1.424123e-03
+`Female labour force participation rate` -5.453474e-04 -1.290239e-05
+`Share of seats in parliament`           -1.212192e-04  1.691201e-04
+`Maternal mortality ratio`               -2.305088e-04  4.487014e-04</code></pre>
+</div>
+</div>
 <p>На основі довірчих інтервалів, можна стверджувати, що всі вказані коефіцієнти регресії, окрім участь жінки у роботі, статистично не значущі, оскільки їхні довірчі інтервали включають нуль</p>
 <p><strong><em>Висновок:</em></strong> згідно з отриманими результатами, фактори: к-сть місць у парламенті для жінок, смертність від народження дитини — статистично незначущі та немають впливу на індекс людського розвитку. А участь жінки у роботі позитивно впливає на ІПРЛ у країнах з низьким ІЛР</p>
 </section>
 </section>
 </section>
-<section id="дослідження-впливу-гетероскедастичночті-та-автокореляції-на-моделі" class="level1">
-<h1>Дослідження впливу гетероскедастичночті та автокореляції на моделі</h1>
-<p>Однак, при застосуванні моделей важливо враховувати певні статистичні проблеми, такі як гетероскедастичність та автокореляція, що можуть негативно вплинути на точність моделі.</p>
+</section>
+<section id="дослідження-впливу-гетероскедастичночті-на-моделі" class="level1">
+<h1>Дослідження впливу гетероскедастичночті на моделі</h1>
+<p><strong><em>Гетероскедастичність—</em></strong> це випадкові величини, що мають різну дисперсію. Головна проблема полягає у зміщені стандартних помилок оцінок моделі.</p>
 <section id="перевірка-на-явність-гетероскедастичності-у-моделі-з-високим-ілр" class="level2">
 <h2 class="anchored" data-anchor-id="перевірка-на-явність-гетероскедастичності-у-моделі-з-високим-ілр">Перевірка на явність гетероскедастичності у моделі з високим ІЛР</h2>
-<p><strong><em>Гетероскедастичність</em></strong>— це випадкові величини, що мають різну дисперсію. Головна проблема заключається в тому, що це явище зміщує стандартні помилки оцінок моделі та створює неточність моделі.</p>
 <section id="візуальна-перевірка-на-присутність-неоднорідної-дисперсії" class="level3">
 <h3 class="anchored" data-anchor-id="візуальна-перевірка-на-присутність-неоднорідної-дисперсії">Візуальна перевірка на присутність неоднорідної дисперсії</h3>
 <p>Візуаізуємо відхилення для перевірки на гетероскедастичність для моделі МЛР з високим рівнем ІЛР</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>highHDI_lm_sqrt <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>)<span class="sc">~</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> highHDI) </span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(highHDI_lm_sqrt) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>highHDI_lm_sqrt <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>)<span class="sc">~</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> highHDI) </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(highHDI_lm_sqrt) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -773,6 +917,91 @@ lm(formula = I(`Human Development Index (HDI)`^2) ~ I(`Life expectancy at birth`
     I(`Expected years of schooling`^2) + I(`Mean years of schooling`^2) + 
     I(`Gross national income (GNI) per capita`^2) + I(`HDI rank`^2), 
     data = highHDI)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.022799 -0.008413 -0.000792  0.007019  0.032655 
+
+Coefficients:
+                                                Estimate Std. Error t value
+(Intercept)                                    6.052e-01  7.628e-02   7.934
+I(`Life expectancy at birth`^2)                3.131e-05  7.157e-06   4.375
+I(`Expected years of schooling`^2)             1.206e-04  4.584e-05   2.631
+I(`Mean years of schooling`^2)                 1.690e-04  1.322e-04   1.278
+I(`Gross national income (GNI) per capita`^2)  1.437e-12  7.386e-13   1.945
+I(`HDI rank`^2)                               -6.259e-05  8.609e-06  -7.270
+                                              Pr(&gt;|t|)    
+(Intercept)                                   5.88e-10 ***
+I(`Life expectancy at birth`^2)               7.59e-05 ***
+I(`Expected years of schooling`^2)              0.0118 *  
+I(`Mean years of schooling`^2)                  0.2081    
+I(`Gross national income (GNI) per capita`^2)   0.0583 .  
+I(`HDI rank`^2)                               5.25e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.01296 on 43 degrees of freedom
+Multiple R-squared:  0.9694,    Adjusted R-squared:  0.9658 
+F-statistic: 272.2 on 5 and 43 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> highHDI_lm<span class="sc">$</span>fitted.values, <span class="at">residual =</span> highHDI_lm<span class="sc">$</span>residuals)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>residuals_df_sqrt <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> highHDI_lm_sqrt<span class="sc">$</span>fitted.values, <span class="at">residual =</span> highHDI_lm_sqrt<span class="sc">$</span>residuals)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>plot_1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Спостережувані значення ІЛР"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>plot_2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(residuals_df_sqrt, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>) <span class="sc">+</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Спостережувані значення ІЛР"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(plot_1,plot_2, <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>На першому графіку очевидно присутня гетероскедастичність, але звернувши увагу на графічну форму розподілу спостережуваних значень, що нагадує параболу, чиї гілки направлені до низу, можна покращити модель за допомогою поліноміальної специфікації 2-го порядку, тобто піднесення кожної змінної до 2-ого степеню. За результатами ефективність моделі не зменшилась.</p>
+<p>На другому графіку видно, що не вдалося позбутися неоднорідної дисперсії, завдяки поліноміальної функції.</p>
+</section>
+<section id="тест-уайта" class="level3">
+<h3 class="anchored" data-anchor-id="тест-уайта">Тест Уайта:</h3>
+<p>Щоб порахувати LM статистику для тесту, слід перемножити значення R^2 і розмір вибірки. Ця статистика розподілена згідно з хі-квадрат розподілом зі ступенями свободи, що дорівнюють числу оцінюваних параметрів (в допоміжній регресії) мінус один.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">white</span>(highHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  statistic p.value parameter method       alternative
+      &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+1      4.94   0.895        10 White's Test greater    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">white</span>(highHDI_lm_sqrt)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  statistic p.value parameter method       alternative
+      &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+1      21.7  0.0169        10 White's Test greater    </code></pre>
+</div>
+</div>
+<p>По результатам даного тесту робимо висновок, що у початковій версії моделі з низьким ІЛР наявна гомоскедастичність, а у моделі, скорегованою поліноміальної функцією, p-значення менший за 0.05, що дозволяє відхилити 0-ву та прийняти альтернативну гіпотезу про присутність гетероскедастичності. Тобто спроба виправити модель погіршила точність моделі.</p>
+</section>
+</section>
+<section id="перевірка-на-явність-гетероскедастичності-у-моделі-з-стандартнимсереднім-ілр" class="level2">
+<h2 class="anchored" data-anchor-id="перевірка-на-явність-гетероскедастичності-у-моделі-з-стандартнимсереднім-ілр">Перевірка на явність гетероскедастичності у моделі з стандартним(середнім) ІЛР</h2>
+<section id="візуальна-перевірка-на-присутність-неоднорідної-дисперсії-1" class="level3">
+<h3 class="anchored" data-anchor-id="візуальна-перевірка-на-присутність-неоднорідної-дисперсії-1">Візуальна перевірка на присутність неоднорідної дисперсії</h3>
+<p>Візуаізуємо відхилення для перевірки на гетероскедастичність для моделі МЛР з стандартним рівнем ІЛР</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>middleHDI_lm_sqrt <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>)<span class="sc">~</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> middleHDI) </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(middleHDI_lm_sqrt) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = I(`Human Development Index (HDI)`^2) ~ I(`Life expectancy at birth`^2) + 
+    I(`Expected years of schooling`^2) + I(`Mean years of schooling`^2) + 
+    I(`Gross national income (GNI) per capita`^2) + I(`HDI rank`^2), 
+    data = middleHDI)
 
 Residuals:
       Min        1Q    Median        3Q       Max 
@@ -800,44 +1029,43 @@ Residual standard error: 0.009906 on 76 degrees of freedom
 Multiple R-squared:  0.9856,    Adjusted R-squared:  0.9847 
 F-statistic:  1042 on 5 and 76 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> highHDI_lm<span class="sc">$</span>fitted.values, <span class="at">residual =</span> highHDI_lm<span class="sc">$</span>residuals)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>residuals_df_sqrt <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> highHDI_lm_sqrt<span class="sc">$</span>fitted.values, <span class="at">residual =</span> highHDI_lm_sqrt<span class="sc">$</span>residuals)</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>plot_1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Спостережувані значення ІЛР"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>plot_2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(residuals_df_sqrt, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>) <span class="sc">+</span></span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Спостережувані значення ІЛР"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(plot_1,plot_2, <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> middleHDI_lm<span class="sc">$</span>fitted.values, <span class="at">residual =</span> middleHDI_lm<span class="sc">$</span>residuals)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>residuals_df_sqrt <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> middleHDI_lm_sqrt<span class="sc">$</span>fitted.values, <span class="at">residual =</span> middleHDI_lm_sqrt<span class="sc">$</span>residuals)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>plot_5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Спостережувані значення ІЛР"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>plot_6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(residuals_df_sqrt, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>) <span class="sc">+</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Спостережувані значення ІЛР"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(plot_5,plot_6, <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>На першому графіку очевидно присутня гетерескедастичності, але звернувши увагу на графічну форму розподілу спостережуваних значень, що нагадує параболу, чиї гілки направлені до низу, можна покращити модель за допомогою poly-poly специфікації 2-го порядку, тобто піднесення кожної змінної до 2-ого степеня. За результатами ефективність моделі не зменшилась.</p>
-<p>На другому графіку неоднорідна дисперсія вже не настільки очевидна, завдяки полімінеальній функції.</p>
+<p>На першому графіку очевидно присутня гетероскедастичність, але звернувши увагу на графічну форму розподілу спостережуваних значень, можна покращити модель за допомогою поліноміальної специфікації 2-го порядку. За результатами ефективність моделі не зменшилась.</p>
+<p>На другому графіку неоднорідна дисперсія вже не настільки очевидна, завдяки поліноміальної функції.</p>
 </section>
-<section id="тест-уайта" class="level3">
-<h3 class="anchored" data-anchor-id="тест-уайта">Тест Уайта:</h3>
-<p>Щоб порахувати LM статистику для тесту, слід перемножити значення R^2 і розмір вибірки. Ця статистика розподілена згідно з хі-квадрат розподілом зі ступенями свободи, що дорівнюють числу оцінюваних параметрів (в допоміжній регресії) мінус один.</p>
+<section id="тест-уайта-1" class="level3">
+<h3 class="anchored" data-anchor-id="тест-уайта-1">Тест Уайта:</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">white</span>(highHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 5
-  statistic   p.value parameter method       alternative
-      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
-1      35.6 0.0000996        10 White's Test greater    </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">white</span>(highHDI_lm_sqrt)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">white</span>(highHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 5
   statistic p.value parameter method       alternative
       &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
-1      6.99   0.726        10 White's Test greater    </code></pre>
+1      4.94   0.895        10 White's Test greater    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">white</span>(highHDI_lm_sqrt)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  statistic p.value parameter method       alternative
+      &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+1      21.7  0.0169        10 White's Test greater    </code></pre>
 </div>
 </div>
 <p>По результатам даного тесту робимо висновок, що у початковій версія моделі з високим ІЛР і справді наявна гетероскедастичність, а у моделі, скорегованою полімінеальною функцією, p-значення більший за 0.05, що дозволяє прийняти 0-ву гіпотезу про присутність гомоскедастичності.</p>
@@ -845,12 +1073,12 @@ F-statistic:  1042 on 5 and 76 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="перевірка-на-явність-гетероскедастичності-у-моделі-з-низьким-ілр" class="level2">
 <h2 class="anchored" data-anchor-id="перевірка-на-явність-гетероскедастичності-у-моделі-з-низьким-ілр">Перевірка на явність гетероскедастичності у моделі з низьким ІЛР</h2>
-<section id="візуальна-перевірка-на-присутність-неоднорідної-дисперсії-1" class="level3">
-<h3 class="anchored" data-anchor-id="візуальна-перевірка-на-присутність-неоднорідної-дисперсії-1">Візуальна перевірка на присутність неоднорідної дисперсії</h3>
+<section id="візуальна-перевірка-на-присутність-неоднорідної-дисперсії-2" class="level3">
+<h3 class="anchored" data-anchor-id="візуальна-перевірка-на-присутність-неоднорідної-дисперсії-2">Візуальна перевірка на присутність неоднорідної дисперсії</h3>
 <p>Візуаізуємо відхилення для перевірки на гетероскедастичність для моделі МЛР з низьким рівнем ІЛР</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>lowHDI_lm_sqrt <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>)<span class="sc">~</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> lowHDI) </span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lowHDI_lm_sqrt) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>lowHDI_lm_sqrt <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(<span class="st">`</span><span class="at">Human Development Index (HDI)</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>)<span class="sc">~</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Life expectancy at birth</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">Expected years of schooling</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="st">`</span><span class="at">Mean years of schooling</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Gross national income (GNI) per capita</span><span class="st">`</span> <span class="sc">+</span> <span class="fu">I</span>(<span class="st">`</span><span class="at">HDI rank</span><span class="st">`</span><span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> lowHDI) </span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lowHDI_lm_sqrt) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -861,75 +1089,76 @@ lm(formula = I(`Human Development Index (HDI)`^2) ~ I(`Life expectancy at birth`
 
 Residuals:
        Min         1Q     Median         3Q        Max 
--0.0288811 -0.0071374 -0.0001063  0.0058192  0.0296174 
+-0.0152998 -0.0021127  0.0000471  0.0040184  0.0124586 
 
 Coefficients:
                                            Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)                               5.227e-01  9.516e-02   5.493 1.99e-06
-I(`Life expectancy at birth`^2)           3.225e-05  6.834e-06   4.719 2.53e-05
-I(`Expected years of schooling`^2)        1.629e-04  4.709e-05   3.459  0.00124
-`Mean years of schooling`                 5.529e-03  3.123e-03   1.770  0.08374
-`Gross national income (GNI) per capita`  4.151e-07  1.229e-07   3.378  0.00156
-I(`HDI rank`^2)                          -5.557e-05  9.181e-06  -6.053 3.06e-07
+(Intercept)                               4.146e-01  2.830e-02  14.654  &lt; 2e-16
+I(`Life expectancy at birth`^2)           1.598e-05  2.289e-06   6.980 4.44e-09
+I(`Expected years of schooling`^2)        1.702e-04  3.677e-05   4.630 2.34e-05
+`Mean years of schooling`                 3.872e-03  8.561e-04   4.522 3.39e-05
+`Gross national income (GNI) per capita`  3.166e-06  4.207e-07   7.526 5.77e-10
+I(`HDI rank`^2)                          -9.025e-06  4.987e-07 -18.097  &lt; 2e-16
                                             
 (Intercept)                              ***
 I(`Life expectancy at birth`^2)          ***
-I(`Expected years of schooling`^2)       ** 
-`Mean years of schooling`                .  
-`Gross national income (GNI) per capita` ** 
+I(`Expected years of schooling`^2)       ***
+`Mean years of schooling`                ***
+`Gross national income (GNI) per capita` ***
 I(`HDI rank`^2)                          ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.01204 on 43 degrees of freedom
-Multiple R-squared:  0.9736,    Adjusted R-squared:  0.9705 
-F-statistic: 316.9 on 5 and 43 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.006243 on 54 degrees of freedom
+Multiple R-squared:  0.9944,    Adjusted R-squared:  0.9939 
+F-statistic:  1910 on 5 and 54 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> lowHDI_lm<span class="sc">$</span>fitted.values, <span class="at">residual =</span> lowHDI_lm<span class="sc">$</span>residuals)</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>residuals_df_sqrt <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> lowHDI_lm_sqrt<span class="sc">$</span>fitted.values, <span class="at">residual =</span> lowHDI_lm_sqrt<span class="sc">$</span>residuals)</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>plot_3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Спостережувані значення ІЛР"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>plot_4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(residuals_df_sqrt, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>) <span class="sc">+</span></span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Спостережувані значення ІЛР"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(plot_3,plot_4, <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>residuals_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> lowHDI_lm<span class="sc">$</span>fitted.values, <span class="at">residual =</span> lowHDI_lm<span class="sc">$</span>residuals)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>residuals_df_sqrt <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fitted =</span> lowHDI_lm_sqrt<span class="sc">$</span>fitted.values, <span class="at">residual =</span> lowHDI_lm_sqrt<span class="sc">$</span>residuals)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>plot_3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(residuals_df, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Спостережувані значення ІЛР"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>plot_4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(residuals_df_sqrt, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>) <span class="sc">+</span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Спостережувані значення ІЛР"</span>, <span class="at">y =</span> <span class="st">"Залишки моделі"</span>) <span class="sc">+</span></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(plot_3,plot_4, <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>На першому графіку присутня гетерескедастичності, але звернувши увагу на графічну форму розподілу спостережуваних значень, що нагадує параболу, чиї гілки направлені до низу, можна покращити модель за допомогою poly-poly специфікації 2-го порядку.</p>
-<p>На другому графіку візуально складно визначити, чи допомогла поліменіальна специфікація.</p>
+<p>На першому графіку присутня гетерескедастичності, але звернувши увагу на графічну форму розподілу спостережуваних значень, що нагадує параболу, чиї гілки направлені до низу, можна покращити модель за допомогою поліноміальної специфікації 2-го порядку.</p>
+<p>На другому графіку візуально складно визначити, чи допомогла поліноміальна специфікація.</p>
 </section>
-<section id="тест-уайта-1" class="level3">
-<h3 class="anchored" data-anchor-id="тест-уайта-1">Тест Уайта:</h3>
+<section id="тест-уайта-2" class="level3">
+<h3 class="anchored" data-anchor-id="тест-уайта-2">Тест Уайта:</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">white</span>(lowHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">white</span>(lowHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 5
   statistic p.value parameter method       alternative
       &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
-1      4.94   0.895        10 White's Test greater    </code></pre>
+1      29.3 0.00110        10 White's Test greater    </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">white</span>(lowHDI_lm_sqrt)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">white</span>(lowHDI_lm_sqrt)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 5
   statistic p.value parameter method       alternative
       &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
-1      29.1 0.00118        10 White's Test greater    </code></pre>
+1      24.4 0.00656        10 White's Test greater    </code></pre>
 </div>
 </div>
-<p>По результатам даного тесту робимо висновок, що у початковій версія моделі з низьким ІЛР наявна гомоскедастичність, а у моделі, скорегованою полімінеальною функцією, p-значення менший за 0.05, що дозволяє відхилити 0-ву та прийняти альтернативну гіпотезу про присутність гетероскедастичності. Тобто спроба виправити модель погіршила точність моделі.</p>
-<p><strong><em>Висновок:</em></strong> отже, по результатам дослідження, у моделі з високим ІЛР вдалось зменшити вплив гетероскедастичності, а у моделі з низьким, відповідно до тесту Уайта— не потрібно зменшувати вплив гетероскедастичності, проте графік вказує на присутність неоднорідної дисперсії, що доводить неточність даного тесту.</p>
+<p>По результатам даного тесту робимо висновок, що у початковій версія моделі з високим ІЛР і справді наявна гетероскедастичність LM = 29.3, а у моделі, скорегованою поліноміальної функцією результати покращились LM = 24.4.</p>
+<p><strong><em>Висновок:</em></strong> отже, по результатам дослідження, у моделі з високим ІЛР відповідно до тесту Уайта— не потрібно зменшувати вплив гетероскедастичності, проте графік вказує на присутність неоднорідної дисперсії, що доводить неточність даного тесту. У моделі зі стандартним ІРЛ вдалось досягнути гомомскедастичності, а у моделі з низьким ІЛР вдалось зменшити вплив гетероскедастичності.</p>
 </section>
 </section>
-<section id="дослідження-автокореляції" class="level2">
-<h2 class="anchored" data-anchor-id="дослідження-автокореляції">Дослідження автокореляції</h2>
+</section>
+<section id="дослідження-автокореляції" class="level1">
+<h1>Дослідження автокореляції</h1>
 <p><strong><em>Автокореляція</em></strong> - це кореляція між певними змінними та їхніми відстежуваними значеннями з попередніх періодів. Автокореляція вказує на наявність залежності між значеннями одного і того ж або різних змінних в часовому ряді. Зазвичай це означає, що попередні значення змінної можуть впливати на наступні значення. Це може мати важливі наслідки для аналізу даних, оскільки може призвести до викривлення статистичних оцінок і несправедливих висновків.</p>
 <p>Автокореляція виявляється за допомогою коефіцієнта автокореляції, який може приймати значення від -1 до 1. Значення коефіцієнта близьке до 1 означає, що попередні значення мають сильний вплив на наступні значення, тоді як значення близьке до 0 означає слабку або відсутню автокореляцію. Значення коефіцієнта близьке до -1 означає, що попередні значення мають протилежний вплив на наступні значення.</p>
 <p>Причини винекнення автокореляції:</p>
@@ -937,13 +1166,12 @@ F-statistic: 316.9 on 5 and 43 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li><p>“Близкість” спостережень у часі чи у просторі;</p></li>
 <li><p>Наявність неврахованих фактора, що діє на “сусідні” спостереження.</p></li>
 </ol>
-</section>
 <section id="перевірка-на-явність-автокореляції-у-моделі-з-високим-ілр" class="level2">
 <h2 class="anchored" data-anchor-id="перевірка-на-явність-автокореляції-у-моделі-з-високим-ілр">Перевірка на явність автокореляції у моделі з високим ІЛР</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(highHDI_lm<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(highHDI_lm<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Інтерпретація таких графіків доволі проста. На даних графіках спостерігається значення автокорельованих залишків, що взаємодіють між собою. Вісь х відповідає різним лагам, тобто числу періодів, за якими розраховується коефіцієнт автокореляції, а вісь у показує кореляцію для кожного з відставань. Пунктирна блакитна лінія покаїзує рівень значущості.</p>
@@ -953,37 +1181,62 @@ F-statistic: 316.9 on 5 and 43 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Також перевірити наявність цього явища можна за допомогою тесту Д-В</p>
 <p><strong><em>Тест Дарбіна-Вотсона</em></strong> - це статистичний тест на автокореляцію ряду залишків після регресійного аналізу. Він дозволяє виявити наявність автокореляції першого порядку в залишках регресійної моделі.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(highHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(highHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Durbin-Watson test
 
 data:  highHDI_lm
-DW = 0.86173, p-value = 2.525e-09
+DW = 1.3372, p-value = 0.003708
 alternative hypothesis: true autocorrelation is greater than 0</code></pre>
 </div>
 </div>
 <p>DW-статистика менше 2, отже є позитивна автокореляція, a p-значення менше 0.05, то відхиляється гіпотеза про відсутність автокореляції першого порядку, що підтверджує результат графіку</p>
+<p>отже, по результатам дослідження, у моделі з високим ІЛР відповідно до тесту Уайта— не потрібно зменшувати вплив гетероскедастичності, проте графік вказує на присутність неоднорідної дисперсії, що доводить неточність даного тесту. А у моделі з низьким ІЛР вдалось зменшити вплив гетероскедастичності.</p>
 </section>
-<section id="перевірка-на-явність-автокореляції-у-моделі-з-низьким-ілр" class="level2">
-<h2 class="anchored" data-anchor-id="перевірка-на-явність-автокореляції-у-моделі-з-низьким-ілр">Перевірка на явність автокореляції у моделі з низьким ІЛР</h2>
+<section id="перевірка-на-явність-автокореляції-у-моделі-з-стандартним-ілр" class="level2">
+<h2 class="anchored" data-anchor-id="перевірка-на-явність-автокореляції-у-моделі-з-стандартним-ілр">Перевірка на явність автокореляції у моделі з стандартним ІЛР</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(lowHDI_lm<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(middleHDI_lm<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Згідно даному графіку, автокореляція пристуня.</p>
 <p>Також перевірити наявність цього явища можна за допомогою тесту Д-В</p>
 <p><strong><em>Тест Дарбіна-Вотсона</em></strong> - це статистичний тест на автокореляцію ряду залишків після регресійного аналізу. Він дозволяє виявити наявність автокореляції першого порядку в залишках регресійної моделі.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(lowHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(middleHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  middleHDI_lm
+DW = 0.86173, p-value = 2.525e-09
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+</div>
+</div>
+<p>DW-статистика менше 2, отже є позитивна автокореляція, a p-значення менше 0.05, то відхиляється гіпотеза про відсутність автокореляції першого порядку, що підтверджує результат графіку.</p>
+</section>
+<section id="перевірка-на-явність-автокореляції-у-моделі-з-низьким-ілр" class="level2">
+<h2 class="anchored" data-anchor-id="перевірка-на-явність-автокореляції-у-моделі-з-низьким-ілр">Перевірка на явність автокореляції у моделі з низьким ІЛР</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(lowHDI_lm<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Згідно даному графіку, автокореляція пристуня.</p>
+<p>Також перевірити наявність цього явища можна за допомогою тесту Д-В</p>
+<p><strong><em>Тест Дарбіна-Вотсона</em></strong> - це статистичний тест на автокореляцію ряду залишків після регресійного аналізу. Він дозволяє виявити наявність автокореляції першого порядку в залишках регресійної моделі.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(lowHDI_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Durbin-Watson test
 
 data:  lowHDI_lm
-DW = 1.3372, p-value = 0.003708
+DW = 0.94346, p-value = 1.189e-06
 alternative hypothesis: true autocorrelation is greater than 0</code></pre>
 </div>
 </div>
@@ -992,11 +1245,12 @@ alternative hypothesis: true autocorrelation is greater than 0</code></pre>
 </section>
 <section id="висновок" class="level1">
 <h1>Висновок</h1>
-<p>Отже, дослідивши та визначивши групи країн з низьким та високим індексом людського розвитку, за допомогою кластерного аналізу, було виявлено, що одні й ті самі фактори по різному впливають на ефективність МЛР.</p>
+<p>Отже, дослідивши та визначивши групи країн з низьким, стандартним та високим індексом людського розвитку, за допомогою кластерного аналізу, було виявлено, що одні й ті самі фактори по різному впливають на ефективність МЛР.</p>
 <p>У країнах з високим ІЛР значущими факторами є середня тривалість життя; середня очікувана тривалість навчання в країні на момент народження; середня кількість років навчання, отримана людьми; річний дохід на душу населення.</p>
+<p>У країнах з середнім ІЛР значущими факторами є середня тривалість життя; середня очікувана тривалість навчання в країні на момент народження; середня кількість років навчання, отримана людьми; річний дохід на душу населення.</p>
 <p>У країнах з низьким ІЛР значущим фактором є середня тривалість життя.</p>
-<p>Також виявлено, що кількість місць для жінок у парламенті позитивно(додатньо) вплиає на ІПРЛ у високорозвинених країн, а робоча зайнятість жінок— у країнах 3-ого світу.</p>
-<p>До того ж, при досліджені на наявність явищ гетероскедастичності та автокореляції, перевірено їх вплив на ефективність моделей. У результаті вплив неоднорідної дисперсії вдалось зменшити, а автокореляція присутня та впливає на точність 2-ох моделей.</p>
+<p>Також виявлено, що оцінка робочої зайнятості жінок позитивно впливає на ІПРЛ у високорозвинених країнах, кількість місць для жінок у парламенті позитивно вплиає на ІПРЛ у країн зі стандартним ІЛР, а робоча зайнятість жінок, кількість місць у парламенті та смертність від народження дитини не впливають на модель країн 3-ого світу(низький ІЛР).</p>
+<p>До того ж, було виявлено явища гетероскедастичності та автокореляції. У результаті вдалося зменшити вплив неоднорідної дисперсії завдяки поліноміальної специфікації 2-го порядку у моделі з низьким ІЛР та прибрати у моделі з середнім ІЛР, а автокореляція присутня та впливає на точність 3-ох моделей.</p>
 </section>
 
 </main>
